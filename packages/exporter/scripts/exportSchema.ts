@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import config from '../config';
+import { OptionsType, EnvironmentType } from '../main'
 import processRequests from './processRequests';
 
 interface RelationType {
@@ -27,15 +27,7 @@ export interface ModelType {
   fields: FieldType[];
 }
 
-export interface ProjectType {
-  environment: {
-    contentModel: {
-      models: ModelType[];
-    }
-  }
-}
-
-const exportSchema = async (): Promise<ProjectType> => {
+const exportSchema = async (environment: EnvironmentType, options: OptionsType): Promise<ModelType[]> => {
   const query: string = gql`
     query SchemaQuery(
       $projectId: ID!
@@ -90,24 +82,24 @@ const exportSchema = async (): Promise<ProjectType> => {
     console.log('… Querying schema…');
 
     // TODO Add 'hasContent' to each model to more easily filter out crap
-    const targetEnvironmentRegex = /\w+$/g;
 
-    if (!process.env.GRAPHCMS_PROJECT_ID) throw new Error('Please provide a valid project ID');
-    if (!process.env.GRAPHCMS_PERMANENT_ACCESS_TOKEN) throw new Error('Please provide a valid project ID');
-    if (!process.env.GRAPHCMS_CONTENT_API) throw new Error('Please provide a valid content api url')
-    if (!targetEnvironmentRegex.test(process.env.GRAPHCMS_CONTENT_API)) {
-      throw new Error('Please provide a content api url containing a valid target environment');
-    };
+    const results = await processRequests(
+      query,
+      'https://management-next.graphcms.com/graphql',
+      {
+        concurrency: options.concurrency,
+        permanentAccessToken: environment.permanentAccessToken
+      },
+      {
+        projectId: environment.projectId,
+        targetEnvironment: environment.targetEnvironment,
+        includeSystemFields: options.include.includeSystemFields,
+        includeApiOnlyFields: options.include.includeApiOnlyFields,
+        includeHiddenFields: options.include.includeHiddenFields,
+      });
 
-    const targetEnvironment: RegExpExecArray | null = targetEnvironmentRegex.exec(process.env.GRAPHCMS_CONTENT_API);
+    return results[0].viewer.project.environment.contentModel.models;
 
-    const results = await processRequests(query, 'management', {
-      projectId: process.env.GRAPHCMS_PROJECT_ID,
-      targetEnvironment: targetEnvironment ? targetEnvironment[0] : 'master',
-      ...config.include,
-    });
-
-    return results[0].viewer.project;
   } catch (error) {
     console.error(`\t${error}`);
     throw new Error('\tError exporting schema');

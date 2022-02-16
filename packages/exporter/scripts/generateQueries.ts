@@ -1,14 +1,14 @@
 /* eslint-disable indent */
-import config from '../config';
-import { ProjectType, ModelType, FieldType } from './exportSchema'
+import { OptionsType } from '../main';
+import { ModelType, FieldType } from './exportSchema'
 
 const lowerCaseFirstLetter = (string: string): string => string.charAt(0).toLowerCase() + string.slice(1);
 
-const triage = (apiId: string, isSystem?: boolean): boolean => {
+const triage = (apiId: string, options: OptionsType, isSystem?: boolean, ): boolean => {
   if (apiId === 'id') return true;
-  if (config.exclude.field[apiId]) return false;
-  if (config.exclude.model[apiId]) return false;
-  if (config.include.includeSystemFields === false && isSystem) return false;
+  if (options.exclude.field[apiId]) return false;
+  if (options.exclude.model[apiId]) return false;
+  if (options.include.includeSystemFields === false && isSystem) return false;
   return true;
 };
 
@@ -21,8 +21,8 @@ const assertLocalization = (fields: FieldType[], modelIsLocalized: boolean): Arr
   )
   : [fields, null]);
 
-const assertFieldSubType = (apiId: string, type?: string) => {
-  if (type && config.exclude.subType[type]) return ' ';
+const assertFieldSubType = (apiId: string, options: OptionsType, type?: string) => {
+  if (type && options.exclude.subType[type]) return ' ';
   switch (type) {
     case 'RICHTEXT': return `${apiId} { raw }`;
     case 'LOCATION': return `${apiId} { latitude\nlongitude }`;
@@ -32,11 +32,11 @@ const assertFieldSubType = (apiId: string, type?: string) => {
 };
 
 // TODO replace this with stringifyObject? I'm only using it to set the correct quotes I think.
-const assertFieldType = ({ apiId, __typename, ...field }: FieldType) => {
-  if (config.exclude.type[__typename]) return ' ';
+const assertFieldType = ({ apiId, __typename, ...field }: FieldType, options: OptionsType) => {
+  if (options.exclude.type[__typename]) return ' ';
   switch (__typename) {
     case 'SimpleField':
-      return assertFieldSubType(apiId, field.type);
+      return assertFieldSubType(apiId, options, field.type);
     case 'RelationalField':
     case 'UniDirectionalRelationalField':
       return `${apiId} { id }`;
@@ -51,19 +51,17 @@ const assertFieldType = ({ apiId, __typename, ...field }: FieldType) => {
   }
 };
 
-const parseFields = (fields: FieldType[]) => fields.reduce(
-    (parsedFields: string[], field: FieldType): string[] => triage(field.apiId, field.isSystem)
-      ? [...parsedFields, assertFieldType(field)]
+const parseFields = (fields: FieldType[], options: OptionsType) => fields.reduce(
+    (parsedFields: string[], field: FieldType): string[] => triage(field.apiId, options, field.isSystem)
+      ? [...parsedFields, assertFieldType(field, options)]
       : parsedFields,
     [],
 );
 
-const generateQueries = (schema: ProjectType) => {
+const generateQueries = (schema: ModelType[], options: OptionsType) => {
   console.log('… Generating queries…');
 
-  const allModels = schema.environment.contentModel.models;
-
-  const contentQueries = allModels.reduce((parsedQueries: string[], {
+  const contentQueries = schema.reduce((parsedQueries: string[], {
     apiId: modelApiId,
     apiIdPlural: modelApiIdPlural,
     isLocalized: modelIsLocalized,
@@ -73,22 +71,22 @@ const generateQueries = (schema: ProjectType) => {
 
     // TODO: add config to pretty print json or not (remove newlines & shit)?
 
-    return triage(modelApiId)
+    return triage(modelApiId, options)
       ? [...parsedQueries, `query ${modelApiId} {
           ${modelApiId}: ${lowerCaseFirstLetter(modelApiIdPlural)}(
-              stage: ${config.targetContentStage}
+              stage: ${options.targetContentStage}
               first: 1000
             ) {
             ${modelIsLocalized
-              ? `localizations( includeCurrent: true ${config.targetLocales.length
-                ? `locales: [${config.targetLocales}]`
+              ? `localizations( includeCurrent: true ${options.targetLocales.length
+                ? `locales: [${options.targetLocales}]`
                 : ''
                 }) {
                   locale
-                  ${localizedFields !== null && parseFields(localizedFields)}
+                  ${localizedFields !== null && parseFields(localizedFields, options)}
                 }
-                ${nonLocalizedFields !== null && parseFields(nonLocalizedFields)}\n}`
-              : `${nonLocalizedFields !== null && parseFields(nonLocalizedFields)}\n}`
+                ${nonLocalizedFields !== null && parseFields(nonLocalizedFields, options)}\n}`
+              : `${nonLocalizedFields !== null && parseFields(nonLocalizedFields, options)}\n}`
             }
           }
         `]

@@ -1,32 +1,29 @@
 /* eslint-disable no-await-in-loop */
 import { GraphQLClient } from 'graphql-request';
-import config from '../config';
 
-interface Variables {
-  projectId: string;
-  targetEnvironment: string;
+interface ConfigType {
+  concurrency: number;
+  permanentAccessToken: string;
+}
+
+interface VariablesType {
+  projectId?: string;
+  targetEnvironment?: string;
   includeSystemModels?: boolean;
   includeSystemFields?: boolean;
   includeHiddenFields?: boolean;
   includeApiOnlyFields?: boolean;
 }
 
-const assertTarget = (name: string): string => {
-  if (!process.env.GRAPHCMS_CONTENT_API) throw new Error('Please provide a valid content api url')
-  switch (name) {
-    case 'management':
-      return 'https://management-next.graphcms.com/graphql';
-    default:
-      return process.env.GRAPHCMS_CONTENT_API;
-  }
-};
-
-const processRequests = async (operations: string[] | string, api: string, variables?: Variables): Promise<any> => {
+const processRequests = async (
+  operations: string[] | string,
+  endpoint: string,
+  config: ConfigType,
+  variables?: VariablesType,
+): Promise<any> => {
   console.log('… Executing requests…');
 
   if (typeof operations === 'string') operations = [operations];
-
-  const targetApi = assertTarget(api);
 
   try {
     let allOperations: string[] = operations;
@@ -37,10 +34,10 @@ const processRequests = async (operations: string[] | string, api: string, varia
       const batchedClients: Promise<any>[] = allOperations
         .slice(0, config.concurrency)
         .map((request) => {
-          const client = new GraphQLClient(targetApi, {
+          const client = new GraphQLClient(endpoint, {
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${process.env.GRAPHCMS_PERMANENT_ACCESS_TOKEN}`,
+              Authorization: `Bearer ${config.permanentAccessToken}`,
             },
           });
           return client.request(request, variables);
