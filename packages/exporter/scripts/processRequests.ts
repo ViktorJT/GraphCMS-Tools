@@ -23,10 +23,11 @@ const processRequests = async (
 ): Promise<any> => {
   console.log('… Executing requests…');
 
-  if (typeof operations === 'string') operations = [operations];
+  let allOperations = Array.isArray(operations)
+    ? operations
+    : [operations];
 
   try {
-    let allOperations: string[] = operations;
     let results: string[] | [] = [];
     let index: number = 1;
 
@@ -53,6 +54,7 @@ const processRequests = async (
   } catch (e) {
     console.error(e);
   }
+  return false;
 };
 
 export default processRequests;

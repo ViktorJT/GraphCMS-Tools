@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { OptionsType, EnvironmentType } from '../main'
+import { OptionsType, EnvironmentType } from '../main';
 import processRequests from './processRequests';
 
 interface RelationType {
@@ -27,7 +27,10 @@ export interface ModelType {
   fields: FieldType[];
 }
 
-const exportSchema = async (environment: EnvironmentType, options: OptionsType): Promise<ModelType[]> => {
+const exportSchema = async (
+  environment: EnvironmentType,
+  options: OptionsType,
+): Promise<ModelType[]> => {
   const query: string = gql`
     query SchemaQuery(
       $projectId: ID!
@@ -88,7 +91,7 @@ const exportSchema = async (environment: EnvironmentType, options: OptionsType):
       'https://management-next.graphcms.com/graphql',
       {
         concurrency: options.concurrency,
-        permanentAccessToken: environment.permanentAccessToken
+        permanentAccessToken: environment.permanentAccessToken,
       },
       {
         projectId: environment.projectId,
@@ -96,10 +99,10 @@ const exportSchema = async (environment: EnvironmentType, options: OptionsType):
         includeSystemFields: options.include.includeSystemFields,
         includeApiOnlyFields: options.include.includeApiOnlyFields,
         includeHiddenFields: options.include.includeHiddenFields,
-      });
+      },
+    );
 
     return results[0].viewer.project.environment.contentModel.models;
-
   } catch (error) {
     console.error(`\t${error}`);
     throw new Error('\tError exporting schema');

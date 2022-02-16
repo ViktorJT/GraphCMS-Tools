@@ -59,19 +59,19 @@ async function exportData(
       subType: {
         JSON: true, // TODO
       },
-    }
-  }) {
-
+    },
+  },
+) {
   const targetEnvironmentRegex: RegExp = /\w+$/g;
   const matches: RegExpExecArray | null = targetEnvironmentRegex.exec(config.contentApi);
   if (!matches || !matches.length) {
     throw new Error('Please provide a content api url containing a valid target environment');
-  };
+  }
 
   const environment: EnvironmentType = {
     ...config,
     targetEnvironment: matches[0],
-  }
+  };
 
   const schema = await exportSchema(environment, options);
   const queries = generateQueries(schema, options);
@@ -80,22 +80,23 @@ async function exportData(
     environment.contentApi,
     {
       concurrency: options.concurrency,
-      permanentAccessToken: environment.permanentAccessToken
-    }
+      permanentAccessToken: environment.permanentAccessToken,
+    },
   );
+
+  console.log(results)
 
   return results;
 }
 
 if (!process.env.GRAPHCMS_PROJECT_ID) throw new Error('Please provide a valid project ID');
 if (!process.env.GRAPHCMS_PERMANENT_ACCESS_TOKEN) throw new Error('Please provide a valid project ID');
-if (!process.env.GRAPHCMS_CONTENT_API) throw new Error('Please provide a valid content api url')
+if (!process.env.GRAPHCMS_CONTENT_API) throw new Error('Please provide a valid content api url');
 
 exportData({
   contentApi: process.env.GRAPHCMS_CONTENT_API,
   projectId: process.env.GRAPHCMS_PROJECT_ID,
   permanentAccessToken: process.env.GRAPHCMS_PERMANENT_ACCESS_TOKEN,
-})
-
+});
 
 export default exportData;

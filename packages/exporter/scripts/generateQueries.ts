@@ -1,10 +1,11 @@
 /* eslint-disable indent */
 import { OptionsType } from '../main';
-import { ModelType, FieldType } from './exportSchema'
+import { ModelType, FieldType } from './exportSchema';
 
+// eslint-disable-next-line max-len
 const lowerCaseFirstLetter = (string: string): string => string.charAt(0).toLowerCase() + string.slice(1);
 
-const triage = (apiId: string, options: OptionsType, isSystem?: boolean, ): boolean => {
+const triage = (apiId: string, options: OptionsType, isSystem?: boolean): boolean => {
   if (apiId === 'id') return true;
   if (options.exclude.field[apiId]) return false;
   if (options.exclude.model[apiId]) return false;
@@ -12,11 +13,14 @@ const triage = (apiId: string, options: OptionsType, isSystem?: boolean, ): bool
   return true;
 };
 
-const assertLocalization = (fields: FieldType[], modelIsLocalized: boolean): Array<FieldType[] | null> => (modelIsLocalized
+const assertLocalization = (
+  fields: FieldType[],
+  modelIsLocalized: boolean,
+): Array<FieldType[] | null> => (modelIsLocalized
   ? fields.reduce(
-    (separatedFields: Array<FieldType[] | []>, field: FieldType) => field.isLocalized
+    (separatedFields: Array<FieldType[] | []>, field: FieldType) => (field.isLocalized
       ? [[...separatedFields[0]], [...separatedFields[1], field]]
-      : [[...separatedFields[0], field], [...separatedFields[1]]],
+      : [[...separatedFields[0], field], [...separatedFields[1]]]),
     [[], []],
   )
   : [fields, null]);
@@ -52,9 +56,9 @@ const assertFieldType = ({ apiId, __typename, ...field }: FieldType, options: Op
 };
 
 const parseFields = (fields: FieldType[], options: OptionsType) => fields.reduce(
-    (parsedFields: string[], field: FieldType): string[] => triage(field.apiId, options, field.isSystem)
+    (parsedFields: string[], field: FieldType): string[] => (triage(field.apiId, options, field.isSystem)
       ? [...parsedFields, assertFieldType(field, options)]
-      : parsedFields,
+      : parsedFields),
     [],
 );
 
