@@ -4,7 +4,6 @@
   "description": "Export content from GraphCMS",
   "main": "main.ts",
   "scripts": {
-    "test": "jest --watchAll --verbose --coverage",
     "export": "npx ts-node --require dotenv/config main.ts"
   },
   "author": "Viktor Jensen-Torp",
