@@ -14,7 +14,6 @@ interface VariablesType {
   includeHiddenFields?: boolean;
   includeApiOnlyFields?: boolean;
 }
-
 const processRequests = async (
   operations: string[] | string,
   endpoint: string,

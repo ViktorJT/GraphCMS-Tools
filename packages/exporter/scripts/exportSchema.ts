@@ -86,7 +86,7 @@ const exportSchema = async (
 
     // TODO Add 'hasContent' to each model to more easily filter out crap
 
-    const results = await processRequests(
+    const results: any = await processRequests(
       query,
       'https://management-next.graphcms.com/graphql',
       {
