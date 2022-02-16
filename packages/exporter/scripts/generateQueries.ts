@@ -48,7 +48,8 @@ const assertFieldType = ({ apiId, __typename, ...field }: FieldType, options: Op
       return field.isMemberType === true
         ? `${apiId} { id }`
         : `${apiId} {
-            ${field.union !== undefined && field.union.memberTypes.map((relatedModel) => `... on ${relatedModel.model.apiId} { id, __typename }`).join('\n')}
+            ${field.union !== undefined
+              && field.union.memberTypes.map((relatedModel) => `... on ${relatedModel.model.apiId} { id, __typename }`).join('\n')}
           }`;
     default:
       return `${apiId}`;

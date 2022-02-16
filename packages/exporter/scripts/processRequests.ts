@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import { GraphQLClient } from 'graphql-request';
 
 interface ConfigType {
