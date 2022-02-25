@@ -1,47 +1,50 @@
-import testData from './test.json'
-import exportMeta, { LocaleType } from './scripts/exportMeta';
+// * Main.ts
+// TODO: Replace JSON data input with 'regular' props
+
+// * GenerateConfig.ts
+// ! TODO: Fix TypeScript errors
+
+// * ProcessRequests.ts
+// ! TODO: Fix TypeScript errors
+// TODO: Refactor fulfilled / rejected requests logic
+
+// * generateContentMutations.ts
+// ! TODO: Refactor 'any' types
+// TODO: Make a variable for hasLocalizedFields or hasNonLocalizedFields to not have to check length everywhere
+// TODO: Filter the localizedFields for en locale before this step, like I do for defaultLocaleFields?
+// TODO: Add options for 'mode' apart from 'Upsert'
+// TODO: (InterpolateInstance)
+         // TODO: Create assumeType function to make code more readable?
+         // TODO: Make a helper wrapper function that can handle reference fields with 'connect:'
+// TODO: (ParseFields)
+         // TODO: Make an assumeType function that just returns a string corresponding to a __typename or type
+         // TODO: Find better way to identify fields that need to be wrapped
+         // TODO: Create & check validations against metadata?
+
+// * generatePublishMutations.ts
+// TODO: Refactor the dumb flatmap thing, reduce instead?
+// TODO: add targetstages in reduce initializer of stages variable instead, and fill in the new locales then?
+// TODO: Refactor newLocales logic (same as prev. point about target stages?)
+
+
+// * global.d.ts
+// TODO: Check which need to be exported / not
+
+import testData from '../data/test.json';
+import generateConfig from './scripts/generateConfig';
 import generateContentMutations from './scripts/generateContentMutations';
 import generatePublishMutations from './scripts/generatePublishMutations';
 import processRequests from './scripts/processRequests';
-
-export interface OptionsType {
-  concurrency: number;
-  targetStages: string[];
-  newLocales: string[] | [];
-  mode: string;
-  exclude: {
-    model: {
-      [key: string]: boolean;
-    }
-    field: {
-      [key: string]: boolean;
-    }
-  }
-}
-
-export interface ConfigType {
-  projectId: string;
-  permanentAccessToken: string;
-  contentApi: string;
-}
-
-export interface EnvironmentType extends ConfigType {
-  targetEnvironment: string;
-}
-
-// interface DataType { // TODO
-//   [key: string]: any[];
-// }
+import type { ModelType, EnvironmentType, OptionsType } from "./@types/global"
 
 async function importData(
-  // data: DataType[], // TODO
-  data: any,
-  config: ConfigType,
+  data: ModelType[],
+  environment: EnvironmentType,
   options: OptionsType = {
     concurrency: 1,
-    newLocales: ['et', 'hr', 'lt', 'lv', 'ru', 'sk', 'sl', 'sr'], // TODO
-    targetStages: ['QA', 'PUBLISHED'], // TODO Add validations from metadata later?
-    mode: 'upsert', // TODO
+    newLocales: ['et', 'hr', 'lt', 'lv', 'ru', 'sk', 'sl', 'sr'],
+    targetStages: ['QA', 'PUBLISHED'],
+    mode: 'upsert',
     exclude: {
       model: {
         User: true, // ! Required
@@ -53,61 +56,32 @@ async function importData(
     },
   },
 ) {
-  const targetEnvironmentRegex: RegExp = /\w+$/g;
-  const matches: RegExpExecArray | null = targetEnvironmentRegex.exec(config.contentApi);
-  if (!matches || !matches.length) {
-    throw new Error('Please provide a content api url containing a valid target environment');
-  }
 
-  const environment: EnvironmentType = {
-    ...config,
-    targetEnvironment: matches[0],
-  };
+  global.config = await generateConfig(environment, options);
+  Object.freeze(global.config);
 
-  const {allLocales, enumerations} = await exportMeta(environment, options);
+  const contentMutations = generateContentMutations(data);
+  const contentResults = await processRequests(contentMutations, global.config.environment.contentApi);
 
-  const defaultLocale = allLocales.find((locale: LocaleType): boolean => locale.isDefault);
+  if (!contentResults) throw new Error('Something went wrong');
 
-  if (!defaultLocale) throw new Error('No default locale found'); // TODO Is there always a default locale, even if there are no other locales?
-
-  const contentMutations = generateContentMutations(
-    data,
-    { defaultLocale: defaultLocale.apiId, enumerations },
-    options
-  );
-
-  const contentResults = await processRequests(
-    contentMutations,
-    environment.contentApi,
-    {
-      concurrency: options.concurrency,
-      permanentAccessToken: environment.permanentAccessToken,
-    }
-  );
-  const publishMutations = generatePublishMutations(contentResults, options);
+  const publishMutations = generatePublishMutations(contentResults.fulfilled);
 
   const results = await processRequests(
     publishMutations,
     environment.contentApi,
-    {
-      concurrency: options.concurrency,
-      permanentAccessToken: environment.permanentAccessToken,
-    }
   );
-  return results; // TODO Make it so all successful and REJECTED requests are returned
+
+  return results; // TODO Make it so ALL successful and REJECTED requests are returned
 }
 
-if (!process.env.GRAPHCMS_PROJECT_ID) throw new Error('Please provide a valid project ID');
-if (!process.env.GRAPHCMS_PERMANENT_ACCESS_TOKEN) throw new Error('Please provide a valid project ID');
-if (!process.env.GRAPHCMS_CONTENT_API) throw new Error('Please provide a valid content api url');
-
 importData(
-  testData,
+  testData, // ? Probably fine to leave this since I won't be loading JSON data later
   {
     contentApi: process.env.GRAPHCMS_CONTENT_API,
     projectId: process.env.GRAPHCMS_PROJECT_ID,
     permanentAccessToken: process.env.GRAPHCMS_PERMANENT_ACCESS_TOKEN,
-  }
+  },
 );
 
 export default importData;

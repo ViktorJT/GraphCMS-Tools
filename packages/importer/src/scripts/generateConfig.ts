@@ -1,53 +1,18 @@
 import { gql } from 'graphql-request';
-import { EnvironmentType, OptionsType } from '../main';
+import type { EnvironmentType, OptionsType, LocaleType, MetaModelType, MetaContentModelTypes } from '../@types/global';
 import processRequests from './processRequests';
 
-interface ResultsType {
-  viewer: {
-    project: {
-      environment: {
-        contentModel: {
-          allLocales: LocaleType[];
-          models: ModelType[];
-        }
-      }
-    }
-  }
-}
-
-export interface ModelType {
-  isLocalized: boolean;
-  apiId: string;
-  fields: any[];
-}
-
-export interface EnumerationsType {
-  [key: string]: {
-    [key: string]: string[];
-  }
-}
-
-export interface LocaleType {
-  apiId: string;
-  isDefault: boolean;
-}
-
-export interface MetaType {
-  enumerations: EnumerationsType; // TODO Make this optional, it might not exist if there are no enumerations
-  allLocales: LocaleType[]; // TODO Make this optional, it might not exist if there are no locales
-  localizedModels?: {
-    [key: string]: boolean;
-  }
-}
-
-const exportMeta = async (environment: EnvironmentType, options: OptionsType): Promise<MetaType> => {
+const exportConfig = async (
+  environment: EnvironmentType,
+  options: OptionsType
+): Promise<ConfigType> => {
   const query = gql`
-  query SchemaQuery($projectId: ID! $targetEnvironment: String = "master") {
+  query SchemaQuery($projectId: ID! $targetEnvironment: String) {
     viewer {
       ... on TokenViewer {
         project(id: $projectId) {
           environment(name: $targetEnvironment) {
-                contentModel {
+            contentModel {
               allLocales: locales {
                 apiId
                 isDefault
@@ -57,6 +22,7 @@ const exportMeta = async (environment: EnvironmentType, options: OptionsType): P
                 apiId
                 fields {
                   __typename
+                  isSystem
                   apiId
                   ... on SimpleField {
                     type
@@ -130,25 +96,26 @@ const exportMeta = async (environment: EnvironmentType, options: OptionsType): P
   try {
     console.log('… Querying schema for metadata…');
 
-    const results: ResultsType = await processRequests(
-      query,
-      'https://management-next.graphcms.com/graphql',
-      {
-        concurrency: options.concurrency,
-        permanentAccessToken: environment.permanentAccessToken,
-      },
-      {
-        projectId: environment.projectId,
-        targetEnvironment: environment.targetEnvironment,
-      },
-    );
+    const targetEnvironmentRegex = /\w+$/g;
+    const matches: RegExpExecArray | null = targetEnvironmentRegex.exec(environment.contentApi);
 
-    const { models, allLocales } = results.viewer.project.environment.contentModel;
+    if (!matches || !matches.length) {
+      throw new Error('No environment found. Please provide a content api url containing a valid target environment');
+    }
+    const targetEnvironment = matches[0];
 
-    const localizedModels = models.reduce((parsedLocalizedModels, { apiId, isLocalized }) => (
+    const results = await processRequests(query, 'https://management-next.graphcms.com/graphql');
+
+    if (!results) throw new Error('Unable to retrieve results from management api')
+
+    const { models, allLocales }: MetaContentModelTypes = results.fulfilled[0].viewer.project.environment.contentModel;
+
+    const defaultLocale = allLocales.find((locale: LocaleType) => locale.isDefault)?.apiId;
+
+    const localizedModels = models.reduce((parsedLocalizedModels: {[key: string]: boolean}, { apiId, isLocalized }: MetaModelType ) => (
       { ...parsedLocalizedModels, [apiId]: isLocalized }), {});
 
-    const enumerations = models.reduce((parsedModels, { apiId: modelApiId, fields }) => {
+    const enumerations = models.reduce((parsedModels: {[key: string]: MetaModelType}, { apiId: modelApiId, fields }: MetaModelType) => {
       const enumerableFields = fields.filter((field) => field.enumeration);
 
       if (!enumerableFields.length) return parsedModels;
@@ -163,15 +130,18 @@ const exportMeta = async (environment: EnvironmentType, options: OptionsType): P
       return { ...parsedModels, [modelApiId]: { ...modelEnums } };
     }, {});
 
-    // TODO something with localizedModels and validations
-    // ? It might actually be smart to somehow incorporate the validations in order to first check everything before actually running a mutation.
-    // ? Otherwise It's easy that it creates 100+ entries before erroring out, which might create unique fields, causing more problems for the next run.
-
-    return { allLocales, enumerations, localizedModels };
+    return {
+      allLocales,
+      defaultLocale,
+      enumerations,
+      localizedModels,
+      environment: {...environment, targetEnvironment },
+      options
+    };
   } catch (error) {
     console.error(`\t${error}`);
     throw new Error('\tError retrieving metadata');
   }
 };
 
-export default exportMeta;
+export default exportConfig;

@@ -1,8 +1,4 @@
 /* eslint-disable indent */
-import { writeFile } from 'fs';
-import { OptionsType } from '../main';
-// import { importConfig } from '../../config';
-
 interface DocumentInStagesType {
   stage: string;
   localizations?: {locale: string}[];
@@ -16,15 +12,15 @@ interface ContentMutationsType {
   }
 }
 
-const generatePublishMutations = (contentMutations: ContentMutationsType[], options: OptionsType) => {
+const generatePublishMutations = (contentMutations: ContentMutationsType[]) => {
   console.log('… Generating mutations…');
 
-  const targetStages = options.targetStages.reduce((parsedStages, stage) => ({
+  const targetStages = global.config.options.targetStages.reduce((parsedStages: string[], stage: string) => ({
       ...parsedStages,
       [stage]: [],
     }), {});
 
-    const newLocales = options.newLocales.map((locale) => ({ locale }));
+    const newLocales = global.config.options.newLocales.map((locale: string[]) => ({ locale }));
 
     const schema = contentMutations.reduce((parsedDocuments, document) => {
     const { id, __typename, documentInStages } = Object.values(document)[0];
@@ -39,7 +35,7 @@ const generatePublishMutations = (contentMutations: ContentMutationsType[], opti
                 ? [...localizations, ...newLocales].map(({ locale }) => locale)
                 : [],
             },
-          }), { [id]: {} }); // ! add targetstages here instead and fill in the new locales?
+          }), { [id]: {} });
 
     return {
       ...parsedDocuments,
@@ -50,7 +46,7 @@ const generatePublishMutations = (contentMutations: ContentMutationsType[], opti
     };
   }, {});
 
-  // TODO: Refactor this, looks dumb to map and then flatten (as opposed to e.g. reducing)
+
   const publishMutations = Object.entries(schema)
     .map(([model, modelMutations]) => Object.entries(modelMutations)
     .map(([id, stages]) => Object.entries(stages)

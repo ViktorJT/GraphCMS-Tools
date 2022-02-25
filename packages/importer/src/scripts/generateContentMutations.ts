@@ -1,57 +1,25 @@
 /* eslint-disable indent */
 import { gql } from 'graphql-request';
-import { OptionsType } from '../main';
-import { EnumerationsType } from './exportMeta';
 import stringifyObject from 'stringify-object';
 
-interface InstanceType {
-  localizations?: any[];
-  id: string;
-  createdAt: string;
-  createdBy: {
-    id: string;
-  }
-  updatedAt: string;
-  updatedBy: string;
-  publishedAt: string;
-  publishedBy: string;
-  scheduledIn: any;
-  [key: string]: any;
-}
+import type { EnumerationType, InstanceType, ModelType, LocalizationType } from '../@types/global'
 
-interface ModelType {
-  [key: string]: InstanceType[]
-}
-
-interface MetaType {
-  defaultLocale: string;
-  enumerations: EnumerationsType;
-}
-
-interface ModelEnumerationsType {
-    [key: string]: string[];
-  }
-
-// TODO Make a variable for hasLocalizedFields or hasNonLocalizedFields to not have to check length everywhere
-// TODO FIlter the localizedFields for en locale before this step, like I do for defaultLocaleFields?
 const interpolateInstance = (
   name: string,
   id: string,
-  localizedFields: any, // TODO
-  defaultLocale: string,
-  defaultLocaleFields: any, // TODO
-  nonLocalizedFields: any, // TODO
-  options: OptionsType,
+  localizedFields: any,
+  defaultLocaleFields: any,
+  nonLocalizedFields: any,
 ) => gql`
-mutation ${options.mode}${name} {
-  ${options.mode}${name}(
+mutation ${global.config.options.mode}${name} {
+  ${global.config.options.mode}${name}(
     where: { id: "${id}" }
     upsert: {
       create: {
         ${localizedFields.length
           ? `localizations: {
               create: [
-                ${localizedFields.filter(({ locale }: {locale: string}) => locale !== defaultLocale).map(({ locale, fields }: {locale: string, fields: any}) => `
+                ${localizedFields.filter(({ locale }: {locale: string}) => locale !== global.config.defaultLocale).map(({ locale, fields }: {locale: string, fields: any}) => `
                   { locale: ${locale} data: { ${fields.join('\n')} } }
                 `).join('\n')}
               ]}
@@ -94,20 +62,18 @@ mutation ${options.mode}${name} {
 `;
 
 const parseFields = (
-  fields: any, // TODO
+  fields: any,
   enumerations: {[key: string]: string[]},
-  options: OptionsType
 ) => Object.entries(fields)
   .filter(([key, value]: [key: string, value: any]) => {
-    // TODO check validations against metadata?
-    if (options.exclude.field[key]) return false;
+
+    if (global.config.options.exclude.field[key]) return false;
     if (typeof value !== 'boolean' && !value) return false;
     if (Array.isArray(value) && !value.length) return false;
     return true;
   })
   .map(([key, value]: [key: string, value: any]) => {
-    // TODO: Make an assumeType function that just returns a string corresponding to a __typename or type
-    // TODO: Find better way to identify fields that need to be wrapped
+
     if (key === 'createdAt' || key === 'updatedAt') return { create: `${key}: "${value}"`, update: ' ' };
     if (value?.id) {
       return value?.__typename
@@ -142,64 +108,59 @@ const parseFields = (
   });
 
 const triageFields = (
-  { localizations, ...nonLocalizedFields }: any, // TODO
-  modelEnumerations: ModelEnumerationsType,
-  options: OptionsType,
-  ): [any[],any[]] => { // TODO
-  const filteredLocales = localizations?.reduce((locales: any, { locale, ...localizedFields }: {locale: string, localizedFields: any}) => {
-    const fields = parseFields(localizedFields, modelEnumerations, options);
+  { localizations, ...nonLocalizedFields }: any,
+  modelEnumerations: EnumerationType,
+  ): [any[],any[],any[]] => {
+
+  const filteredLocales = localizations?.reduce((locales: any, { locale, ...localizedFields }: LocalizationType) => {
+    const fields = parseFields(localizedFields, modelEnumerations);
     return fields.length
       ? [...locales, { locale, fields }]
       : locales;
   }, []);
 
-  const filteredNonLocalizedFields = parseFields(nonLocalizedFields, modelEnumerations, options);
+  const filteredNonLocalizedFields = parseFields(nonLocalizedFields, modelEnumerations);
+
+  const defaultLocaleFields = filteredLocales.filter(({ locale }: { locale: string }) => locale === global.config.defaultLocale)[0];
 
   return [
     filteredLocales || [],
     filteredNonLocalizedFields || [],
+    defaultLocaleFields || [],
   ];
 };
 
 const parseInstance = (
   name: string,
   { id, ...instance }: InstanceType,
-  defaultLocale: string,
-  modelEnumerations: ModelEnumerationsType,
-  options: OptionsType,
+  modelEnumerations: EnumerationType,
 ): string | null => {
-  const [localizedFields, nonLocalizedFields] = triageFields(instance, modelEnumerations, options);
-  const defaultLocaleFields = localizedFields.filter(({ locale }: { locale: string }) => locale === defaultLocale)[0];
+  const [localizedFields, nonLocalizedFields, defaultLocaleFields] = triageFields(instance, modelEnumerations);
+
 
   if (localizedFields.length > 0 || nonLocalizedFields.length > 0) {
     const instanceMutation = interpolateInstance(
       name,
       id,
       localizedFields,
-      defaultLocale,
       defaultLocaleFields,
       nonLocalizedFields,
-      options,
     );
     return instanceMutation;
   }
   return null;
 };
 
-const generateContentMutations = (
-  data: any, // TODO
-  { defaultLocale, enumerations }: MetaType,
-  options: OptionsType
-): string[] | [] => {
+const generateContentMutations = (data: ModelType[]): string[] | [] => {
   console.log('… Generating mutations…');
 
-  const contentMutations = data.reduce((parsedModels: any[], model: ModelType) => {
+  const contentMutations = data.reduce((parsedModels: string[] | [], model: ModelType) => {
     const [name, instances] = Object.entries(model)[0];
 
-    if (options.exclude.model[name]) return parsedModels;
+    if (global.config.options.exclude.model[name]) return parsedModels;
 
     const instanceMutation = instances.reduce((parsedInstances: string[] | [], instance: InstanceType) => {
-      const parsedInstance = parseInstance(name, instance, defaultLocale, enumerations[name], options);
+      const parsedInstance = parseInstance(name, instance, global.config.enumerations[name]);
 
       return parsedInstance ? [...parsedInstances, parsedInstance] : parsedInstances;
     }, []);
