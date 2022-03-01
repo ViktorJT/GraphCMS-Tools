@@ -17,7 +17,6 @@ const processRequests = async (
     let index = 1;
 
     while (allOperations.length > 0) {
-
       const batchedClients: Promise<unknown>[] = allOperations
         .slice(0, global.config.options.concurrency)
         .map((request) => {
@@ -32,12 +31,15 @@ const processRequests = async (
 
       const result = await Promise.allSettled(batchedClients);
 
+      console.log("result", result)
+
       if (result.some(res => res.status === 'fulfilled')) {
-        results.fulfilled = [...results.fulfilled, ...result.filter(res => res.status === "fulfilled").map(({value}: any) => value)];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        results.fulfilled = result.filter(res => res.status === "fulfilled").map(({ value }: any) => value);
       }
 
       if (result.some(res => res.status === 'rejected')) {
-        results.rejected = [...results.rejected, ...result.filter(res => res.status === "rejected")];
+        results.rejected = result.filter(res => res.status === "rejected");
       }
 
       allOperations = allOperations.slice(global.config.options.concurrency);

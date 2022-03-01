@@ -1,34 +1,23 @@
 /* eslint-disable indent */
-interface DocumentInStagesType {
-  stage: string;
-  localizations?: {locale: string}[];
-}
+import type { ParsedStagesType, ContentMutationsType, DocumentInStagesType, TargetStagesType } from '../@types/global';
 
-interface ContentMutationsType {
-  [key: string]: {
-    id: string;
-    __typename: string;
-    documentInStages: DocumentInStagesType[];
-  }
-}
-
-const generatePublishMutations = (contentMutations: ContentMutationsType[]) => {
+const generatePublishMutations = (contentResults: ContentMutationsType[]): string[] => {
   console.log('… Generating mutations…');
 
-  const targetStages = global.config.options.targetStages.reduce((parsedStages: string[], stage: string) => ({
+  const targetStages = global.config.options.targetStages.reduce((parsedStages: ParsedStagesType, stage: string) => ({
       ...parsedStages,
       [stage]: [],
     }), {});
 
-    const newLocales = global.config.options.newLocales.map((locale: string[]) => ({ locale }));
+  const newLocales = global.config.options.newLocales.map((locale: string) => ({ locale }));
 
-    const schema = contentMutations.reduce((parsedDocuments, document) => {
+  const schema = contentResults.reduce((parsedDocuments: ContentMutationsType, document: ContentMutationsType) => {
     const { id, __typename, documentInStages } = Object.values(document)[0];
     const documentIsNew = documentInStages.length === 0;
 
     const stages = documentIsNew
       ? { [id]: { ...targetStages } }
-      : documentInStages.reduce((parsedStages, { stage, localizations }) => ({
+      : documentInStages.reduce((parsedStages: TargetStagesType, { stage, localizations }: DocumentInStagesType) => ({
             [id]: {
               ...parsedStages[id],
               [stage]: localizations
@@ -46,7 +35,6 @@ const generatePublishMutations = (contentMutations: ContentMutationsType[]) => {
     };
   }, {});
 
-
   const publishMutations = Object.entries(schema)
     .map(([model, modelMutations]) => Object.entries(modelMutations)
     .map(([id, stages]) => Object.entries(stages)
@@ -62,7 +50,6 @@ const generatePublishMutations = (contentMutations: ContentMutationsType[]) => {
         ) { id }
       }
     `))).flat(2);
-
   return publishMutations;
 };
 

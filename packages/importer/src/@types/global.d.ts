@@ -54,6 +54,13 @@ export interface MetaFieldType {
     memberTypes: MetaReferenceType[];
   }
   validations?: ValidationsType[];
+  enumeration?: {
+    values: EnumValueType[];
+  }
+}
+
+interface EnumValueType {
+  apiId: string;
 }
 
 export interface MetaContentModelTypes {
@@ -68,6 +75,12 @@ export interface MetaDataType {
         contentModel: MetaContentModelTypes;
       }
     }
+  }
+}
+
+export interface EnumerationsType {
+  [key: string]: {
+    [key: string]: string[];
   }
 }
 
@@ -133,21 +146,29 @@ export interface InstanceType {
 
 export interface LocalizationType {
   locale: string;
+  fields: FieldsType;
   [key: string]: string | number | boolean | ReferenceType | ReferenceType[] | null;
 }
 
-export interface DocumentInStagesType {
-  stage: string;
-  localizations?: { locale: string }[] | [];
+export interface FieldsType {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any;
 }
+
+// ! Duplicate?
+// export interface DocumentInStagesType {
+//   stage: string;
+//   localizations?: { locale: string }[] | [];
+// }
 
 /**
 *** Request types
 **/
 
+
 export interface RequestResultsType {
-  fulfilled: DataType[] | MetaDataType[] | [];
-  rejected: PromiseRejectedResult[] | [];
+  fulfilled: | ContentMutationsType[] | DataType[];
+  rejected: PromiseSettledResult[];
 }
 
 export interface RequestVariablesType {
@@ -157,6 +178,33 @@ export interface RequestVariablesType {
 
 export interface ReferenceType {
   id: string;
+}
+
+/**
+*** Publish types
+**/
+
+export interface DocumentInStagesType {
+  stage: string;
+  localizations?: { locale: string }[];
+}
+
+export interface ContentMutationsType {
+  [key: string]: {
+    id: string;
+    __typename: string;
+    documentInStages: DocumentInStagesType[];
+  }
+}
+
+export interface ParsedStagesType {
+  [key: string]: string[];
+}
+
+export interface TargetStagesType {
+  [key: string]: {
+    [key: string]: string[];
+  }
 }
 
 /**

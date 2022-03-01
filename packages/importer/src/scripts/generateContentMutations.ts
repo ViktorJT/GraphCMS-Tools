@@ -1,16 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable indent */
 import { gql } from 'graphql-request';
 import stringifyObject from 'stringify-object';
 
-import type { EnumerationType, InstanceType, ModelType, LocalizationType } from '../@types/global'
+import type { EnumerationType, InstanceType, ModelType, FieldsType, LocalizationType } from '../@types/global'
 
 const interpolateInstance = (
   name: string,
   id: string,
-  localizedFields: any,
-  defaultLocaleFields: any,
-  nonLocalizedFields: any,
-) => gql`
+  localizedFields: LocalizationType[],
+  defaultLocaleFields: FieldsType,
+  nonLocalizedFields: FieldsType,
+): string => gql`
 mutation ${global.config.options.mode}${name} {
   ${global.config.options.mode}${name}(
     where: { id: "${id}" }
@@ -62,18 +63,16 @@ mutation ${global.config.options.mode}${name} {
 `;
 
 const parseFields = (
-  fields: any,
-  enumerations: {[key: string]: string[]},
+  fields: FieldsType,
+  enumerations: EnumerationType,
 ) => Object.entries(fields)
-  .filter(([key, value]: [key: string, value: any]) => {
-
+  .filter(([key, value]: [key: string, value: any]): boolean => {
     if (global.config.options.exclude.field[key]) return false;
     if (typeof value !== 'boolean' && !value) return false;
     if (Array.isArray(value) && !value.length) return false;
     return true;
   })
   .map(([key, value]: [key: string, value: any]) => {
-
     if (key === 'createdAt' || key === 'updatedAt') return { create: `${key}: "${value}"`, update: ' ' };
     if (value?.id) {
       return value?.__typename
@@ -108,11 +107,11 @@ const parseFields = (
   });
 
 const triageFields = (
-  { localizations, ...nonLocalizedFields }: any,
+  { localizations, ...nonLocalizedFields }: FieldsType,
   modelEnumerations: EnumerationType,
-  ): [any[],any[],any[]] => {
+  ): [ LocalizationType[], FieldsType , FieldsType[] ] => {
 
-  const filteredLocales = localizations?.reduce((locales: any, { locale, ...localizedFields }: LocalizationType) => {
+  const filteredLocales = localizations?.reduce((locales: LocalizationType[], { locale, ...localizedFields }: LocalizationType) => {
     const fields = parseFields(localizedFields, modelEnumerations);
     return fields.length
       ? [...locales, { locale, fields }]
@@ -151,16 +150,18 @@ const parseInstance = (
   return null;
 };
 
-const generateContentMutations = (data: ModelType[]): string[] | [] => {
+const generateContentMutations = (data: ModelType[]): string[] => {
   console.log('… Generating mutations…');
 
-  const contentMutations = data.reduce((parsedModels: string[] | [], model: ModelType) => {
+  const contentMutations = data.reduce((parsedModels: string[], model: ModelType) => {
     const [name, instances] = Object.entries(model)[0];
 
     if (global.config.options.exclude.model[name]) return parsedModels;
 
-    const instanceMutation = instances.reduce((parsedInstances: string[] | [], instance: InstanceType) => {
-      const parsedInstance = parseInstance(name, instance, global.config.enumerations[name]);
+    const modelEnumerations = global.config.enumerations[name];
+
+    const instanceMutation = instances.reduce((parsedInstances: string[], instance: InstanceType) => {
+      const parsedInstance = parseInstance(name, instance, modelEnumerations);
 
       return parsedInstance ? [...parsedInstances, parsedInstance] : parsedInstances;
     }, []);

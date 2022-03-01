@@ -1,15 +1,16 @@
+// * General
+// TODO: Remove DotEnv and other dependencies from both scripts
+
 // * Main.ts
 // TODO: Replace JSON data input with 'regular' props
 
 // * GenerateConfig.ts
-// ! TODO: Fix TypeScript errors
+// TODO: -
 
 // * ProcessRequests.ts
-// ! TODO: Fix TypeScript errors
-// TODO: Refactor fulfilled / rejected requests logic
+// TODO: Finish refactoring fulfilled / rejected requests logic
 
 // * generateContentMutations.ts
-// ! TODO: Refactor 'any' types
 // TODO: Make a variable for hasLocalizedFields or hasNonLocalizedFields to not have to check length everywhere
 // TODO: Filter the localizedFields for en locale before this step, like I do for defaultLocaleFields?
 // TODO: Add options for 'mode' apart from 'Upsert'
@@ -25,7 +26,6 @@
 // TODO: Refactor the dumb flatmap thing, reduce instead?
 // TODO: add targetstages in reduce initializer of stages variable instead, and fill in the new locales then?
 // TODO: Refactor newLocales logic (same as prev. point about target stages?)
-
 
 // * global.d.ts
 // TODO: Check which need to be exported / not
@@ -56,7 +56,6 @@ async function importData(
     },
   },
 ) {
-
   global.config = await generateConfig(environment, options);
   Object.freeze(global.config);
 
