@@ -1,8 +1,11 @@
 {
-  "name": "graphcms-exporter",
+  "name": "@graphcms-tools/exporter",
   "version": "1.0.0",
   "description": "Export content from GraphCMS",
-  "main": "main.ts",
+  "main": "src/main.ts",
+  "files": [
+    "src/**/*"
+  ],
   "scripts": {
     "export": "tsc dist/main.ts",
     "tsc": "tsc"

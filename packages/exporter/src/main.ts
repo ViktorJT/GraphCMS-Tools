@@ -1,8 +1,7 @@
-import exportSchema from './scripts/exportSchema';
 import generateQueries from './scripts/generateQueries';
 import processRequests from './scripts/processRequests';
 
-import type {OptionsType, EnvironmentType} from './@types/main';
+import type {OptionsType, EnvironmentType} from './types';
 
 import {schemaQuery} from './queries/schemaQuery';
 
@@ -30,11 +29,10 @@ async function exportData(
 ) {
   const targetEnvironment = /\w+$/g.exec(environment.contentApi);
 
-  if (!targetEnvironment) {
+  if (!targetEnvironment)
     throw new Error(
       'No environment found. Provide a content api url containing a valid target environment'
     );
-  }
 
   global.config = {
     targetEnvironment: targetEnvironment[0],
@@ -44,8 +42,7 @@ async function exportData(
 
   Object.freeze(global.config);
 
-  // TODO any type
-  const schemaResults: any = await processRequests(
+  const {fulfilled: schemaQueryResults, rejected} = await processRequests(
     schemaQuery,
     'https://management-next.graphcms.com/graphql',
     {
@@ -57,9 +54,11 @@ async function exportData(
     }
   );
 
-  const schema = schemaResults[0].viewer.project.environment.contentModel.models;
+  if (rejected.length) console.log(`${rejected.length} requests rejected`);
 
-  const queries = generateQueries(schema);
+  const modelSchema = schemaQueryResults[0].viewer.project.environment.contentModel.models;
+
+  const queries = generateQueries(modelSchema);
 
   const results = await processRequests(queries, environment.contentApi, {
     concurrency: options.concurrency,

@@ -1,6 +1,5 @@
 /* eslint-disable indent */
-// import {writeFileSync} from 'fs';
-import {ModelType, FieldType} from './exportSchema';
+import {ModelType, FieldType} from '../types';
 
 const lowerCaseFirstLetter = (string: string): string =>
   string.charAt(0).toLowerCase() + string.slice(1);
@@ -121,8 +120,6 @@ const generateQueries = (schema: ModelType[]) => {
     },
     []
   );
-
-  // writeFileSync('test.json', JSON.stringify(contentQueries, null, 2));
 
   console.log(`\tSuccessfully generated ${contentQueries.length} queries`);
 

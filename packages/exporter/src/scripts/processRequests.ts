@@ -1,13 +1,12 @@
 /* eslint-disable no-await-in-loop */
 import {GraphQLClient} from 'graphql-request';
-import type {RequestResultsType, RequestVariablesType} from '../@types/requests';
+import type {RequestResultsType, RequestVariablesType} from '../types';
 
 const processRequests = async (
   operations: string[] | string,
   endpoint: string,
   variables?: RequestVariablesType
-  // ): Promise<RequestResultsType> => {
-): Promise<any> => {
+): Promise<RequestResultsType> => {
   console.log('… Processing requests…');
 
   if (typeof operations === 'string') operations = [operations];

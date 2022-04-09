@@ -101,5 +101,5 @@
   },
   "include": ["src/scripts"],
   "exclude": ["node_modules"],
-  "files": ["src/main.ts", "src/@types/global.d.ts"]
+  "files": ["src/main.ts", "src/types/global.d.ts"]
 }
