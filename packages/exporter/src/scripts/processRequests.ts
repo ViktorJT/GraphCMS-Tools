@@ -1,17 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import {GraphQLClient} from 'graphql-request';
-// import type {RequestResultsType, RequestVariablesType} from '../@types/global';
-
-interface RequestResultsType {
-  // TODO any
-  fulfilled: any;
-  rejected: PromiseSettledResult[];
-}
-
-interface RequestVariablesType {
-  projectId: string;
-  targetEnvironment: string;
-}
+import type {RequestResultsType, RequestVariablesType} from '../@types/requests';
 
 const processRequests = async (
   operations: string[] | string,

@@ -1,13 +1,7 @@
-import {gql} from 'graphql-request';
-// import { OptionsType, EnvironmentType } from '../main';
-import type {FieldType, ModelType} from '../@types/schema';
+import { gql } from 'graphql-request';
 import processRequests from './processRequests';
-
-const exportSchema = async (
-  environment: EnvironmentType,
-  options: OptionsType
-): Promise<ModelType[]> => {
-  const query: string = gql`
+const exportSchema = async (environment, options) => {
+    const query = gql `
     query SchemaQuery(
       $projectId: ID!
       $targetEnvironment: String = "master"
@@ -56,33 +50,23 @@ const exportSchema = async (
       }
     }
   `;
-
-  try {
-    console.log('… Querying schema…');
-
-    // TODO Add 'hasContent' to each model to more easily filter out crap
-
-    const results: any = await processRequests(
-      query,
-      'https://management-next.graphcms.com/graphql',
-      {
-        concurrency: 1,
-        permanentAccessToken: environment.permanentAccessToken,
-      },
-      {
-        projectId: environment.projectId,
-        targetEnvironment: environment.targetEnvironment,
-        includeSystemFields: options.include.includeSystemFields,
-        includeApiOnlyFields: options.include.includeApiOnlyFields,
-        includeHiddenFields: options.include.includeHiddenFields,
-      }
-    );
-
-    return results[0].viewer.project.environment.contentModel.models;
-  } catch (error) {
-    console.error(`\t${error}`);
-    throw new Error('\tError exporting schema');
-  }
+    try {
+        console.log('… Querying schema…');
+        const results = await processRequests(query, 'https://management-next.graphcms.com/graphql', {
+            concurrency: 1,
+            permanentAccessToken: environment.permanentAccessToken,
+        }, {
+            projectId: environment.projectId,
+            targetEnvironment: environment.targetEnvironment,
+            includeSystemFields: options.include.includeSystemFields,
+            includeApiOnlyFields: options.include.includeApiOnlyFields,
+            includeHiddenFields: options.include.includeHiddenFields,
+        });
+        return results[0].viewer.project.environment.contentModel.models;
+    }
+    catch (error) {
+        console.error(`\t${error}`);
+        throw new Error('\tError exporting schema');
+    }
 };
-
 export default exportSchema;

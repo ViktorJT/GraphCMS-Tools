@@ -1,0 +1,1015 @@
+[
+  "query Sidebar {
+          Sidebar: sidebars(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  heading
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },namedLinks { id },warrantyPages { id },scheduledIn { id }
+}
+          }
+        ",
+  "query TextBlock {
+          TextBlock: textBlocks(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  smallHeading,largeHeading,bodyCopy
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },textGrid { id },button { id },scheduledIn { id }
+}
+          }
+        ",
+  "query TextGrid {
+          TextGrid: textGrids(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },accordionModules { id },textBlocks { id },scheduledIn { id }
+}
+          }
+        ",
+  "query BigFeatureItem {
+          BigFeatureItem: bigFeatureItems(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,copy
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },bigFeatures { id },scheduledIn { id }
+}
+          }
+        ",
+  "query CareSupportPage {
+          CareSupportPage: careSupportPages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },market,referenceTitle,title,description,modules {
+            ... on SupportSection { id, __typename }
+... on SupportHero { id, __typename }
+          },scheduledIn { id }
+}
+          }
+        ",
+  "query SupportSection {
+          SupportSection: supportSections(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },referenceTitle,market,heading,description,careSupportPages { id },scheduledIn { id },button { id }
+}
+          }
+        ",
+  "query FaqPage {
+          FaqPage: faqPages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,description
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },articleHero { id },sidebar { id },scheduledIn { id }
+}
+          }
+        ",
+  "query DescalePage {
+          DescalePage: descalePages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,description
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },modules {
+            ... on ArticleHero { id, __typename }
+... on VideoGrid { id, __typename }
+          },scheduledIn { id }
+}
+          }
+        ",
+  "query SupportVideosPage {
+          SupportVideosPage: supportVideosPages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,description
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },modules {
+            ... on ArticleHero { id, __typename }
+... on VideoGrid { id, __typename }
+          },scheduledIn { id }
+}
+          }
+        ",
+  "query Manual {
+          Manual: manuals(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,filterPlaceholder,downloadsHeading,manualNotFoundText
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },scheduledIn { id },articleHero { id },manualNotFoundLink { id }
+}
+          }
+        ",
+  "query WarrantyPage {
+          WarrantyPage: warrantyPages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,description
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },modules {
+            ... on TextModule { id, __typename }
+... on ArticleHero { id, __typename }
+... on Sidebar { id, __typename }
+          },scheduledIn { id }
+}
+          }
+        ",
+  "query ContactPage {
+          ContactPage: contactPages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },market,referenceTitle,title,description,modules {
+            ... on ArticleHero { id, __typename }
+... on ContactPage { id, __typename }
+          },contactPages { id },scheduledIn { id }
+}
+          }
+        ",
+  "query ProductAndUserRegistrationField {
+          ProductAndUserRegistrationField: productAndUserRegistrationFields(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  successTitle,successMessage,productRegistrationTitle,productRegistrationText,selectModelLabel,selectModelNumberLabel,whereToFindLabel,registredMachineLabel,registredMachineLabelMobile,addNewMachineLabel,addNewMachineLabelMobile,editProfile,premiumModalTitle,premiumModalDescription,address,zipCodeAndCity,phoneNumber,premiumOptInLabel,chooseFileLabel
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },scheduledIn { id }
+}
+          }
+        ",
+  "query ModelsPage {
+          ModelsPage: modelsPages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,description
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },seoImage { id },modules {
+            ... on Hero { id, __typename }
+... on ModelLink { id, __typename }
+... on ContentBlock { id, __typename }
+          },scheduledIn { id }
+}
+          }
+        ",
+  "query ExampleComponent {
+          ExampleComponent: exampleComponents(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,description
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },cmsTitle,image {
+            ... on LocalizedImage { id, __typename }
+          },scheduledIn { id },slug,deleteMe
+}
+          }
+        ",
+  "query Currency {
+          Currency: currencies(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  currency
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },market,currencyCode,scheduledIn { id }
+}
+          }
+        ",
+  "query Hero {
+          Hero: heroes(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,subtitle,scrollToLabel
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },titleReference,frontPages { id },modelsPages { id },scheduledIn { id },button { id },backgroundImage { id },seriesPages { id },backgroundImagePortrait { id },backgroundVideo { id },backgroundVideoPortrait { id },showTagline
+}
+          }
+        ",
+  "query User {
+          User: users(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,updatedAt,publishedAt,name,picture,kind,isActive
+}
+          }
+        ",
+  "query Asset {
+          Asset: assets(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  handle,fileName,height,width,size,mimeType
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },imageLocalizedImage { id },seoImageFrontPage { id },scheduledIn { id },seoImageModelsPage { id },seoImageSeriesPage { id },seoImageProductPage { id },arModelPdpHero { id },frontVideoSrcContentBlock { id },backgroundVideoPortraitHero { id },backgroundVideoHero { id },videoSrcContentBlock { id },backgroundVideoPortraitContentBlock { id },filter
+}
+          }
+        ",
+  "query SocialLink {
+          SocialLink: socialLinks(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },label,url,market,scheduledIn { id }
+}
+          }
+        ",
+  "query Coffee {
+          Coffee: coffees(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  preTitle,titleForModels
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },referenceTitelOnlyUsedForOverview,frontPages { id },typeOfCoffeeDrinks { id },scheduledIn { id },productModels { id },productPages { id }
+}
+          }
+        ",
+  "query MediaGallery {
+          MediaGallery: mediaGalleries(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,subTitle
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },accordionModules { id },mediaItems { id },scheduledIn { id },productPages { id }
+}
+          }
+        ",
+  "query ReviewsSlider {
+          ReviewsSlider: reviewsSliders(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },scheduledIn { id },productPages { id }
+}
+          }
+        ",
+  "query ModelLink {
+          ModelLink: modelLinks(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  moduleTitle,heading
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },productCards { id },modelsPages { id },scheduledIn { id },productPages { id }
+}
+          }
+        ",
+  "query PdpHero {
+          PdpHero: pdpHeroes(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,buttonLabel,buttonLabelMobile,rating,arButtonLabel
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },productImage { id },scheduledIn { id },showArLinkButton,arModel { id },productPages { id }
+}
+          }
+        ",
+  "query ProductCard {
+          ProductCard: productCards(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  productTitle,highlightedFeaturesForCard,specTitle,productSubline,title
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },productImage { id },modelLinks { id },scheduledIn { id },productSections { id },iconsForHighlightedFeatures,linkToPage { id },productModel { id }
+}
+          }
+        ",
+  "query ReviewsModule {
+          ReviewsModule: reviewsModules(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },titleReference,leftImage { id },rightImage { id },frontPages { id },scheduledIn { id }
+}
+          }
+        ",
+  "query Footer {
+          Footer: footers(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,terms,newsletterTitle,newsletterSignupOptionalInfo,newsletterSignupButtonText,newsletterAgreeToMarketingText,cookieSettingsLabel,newsletterPleaseAcceptTerms,newsletterPleaseEnterAValidEmail,newsletterThankYou,consentLinkLabel,cookieLinkLabel,imprintLinkLabel,termsLinkLabel,privacyLinkLabel
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },seriesPages { id },scheduledIn { id },supportLinks { id }
+}
+          }
+        ",
+  "query ProductSelect {
+          ProductSelect: productSelects(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  componentTitle,subtitle,noAvailableProducts
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },model,scheduledIn { id },showCompareButton,productPages { id }
+}
+          }
+        ",
+  "query FeatureSlider {
+          FeatureSlider: featureSliders(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,description
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },accordionModules { id },featureSliderItems { id },scheduledIn { id },productModels { id },productPages { id },seriesPages { id }
+}
+          }
+        ",
+  "query SeriesIntro {
+          SeriesIntro: seriesIntros(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  seriesPretext,seriesTitle,seriesDescription
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },image { id },scheduledIn { id },seriesIntroCards { id },seriesPages { id },productCards { id }
+}
+          }
+        ",
+  "query Faq {
+          Faq: faqs(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },accordionModules { id },faqItems { id },scheduledIn { id }
+}
+          }
+        ",
+  "query FaqItem {
+          FaqItem: faqItems(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  question,answer { raw }
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },faqs { id },scheduledIn { id }
+}
+          }
+        ",
+  "query SpecsBlock {
+          SpecsBlock: specsBlocks(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,specs
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },iconsForList,backgroundImage { id },scheduledIn { id },productPages { id }
+}
+          }
+        ",
+  "query AccordionModule {
+          AccordionModule: accordionModules(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },accordionModules {
+            ... on MediaGallery { id, __typename }
+... on Faq { id, __typename }
+... on FeatureSlider { id, __typename }
+... on TextGrid { id, __typename }
+... on ContentBlock { id, __typename }
+          },scheduledIn { id },productPages { id }
+}
+          }
+        ",
+  "query ProductDisplay {
+          ProductDisplay: productDisplays(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  titleReference
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },productSections { id },frontPages { id },scheduledIn { id }
+}
+          }
+        ",
+  "query ProductCtnBuyUrl {
+          ProductCtnBuyUrl: productCtnBuyUrls(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },name,url,market,productCtn { id },scheduledIn { id },promotions { id }
+}
+          }
+        ",
+  "query ProductModel {
+          ProductModel: productModels(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },model,productPage { id },productCtns { id },searchableItems,typeOfCoffeeDrinks { id },scheduledIn { id },modelNumbers,coffees { id },promotions { id },featureSlider { id },seriesIntroCards { id },productCard { id }
+}
+          }
+        ",
+  "query SearchResultItem {
+          SearchResultItem: searchResultItems(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  productTitle,resultCopy
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },button { id },resultImage { id },scheduledIn { id }
+}
+          }
+        ",
+  "query TypeOfCoffeeDrink {
+          TypeOfCoffeeDrink: typeOfCoffeeDrinks(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },image { id },availableOnProduct { id },coffees { id },scheduledIn { id }
+}
+          }
+        ",
+  "query BigFeature {
+          BigFeature: bigFeatures(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },productImage { id },productImageTablet { id },productImageMobile { id },frontPages { id },bigFeatureItems { id },scheduledIn { id },titleReference
+}
+          }
+        ",
+  "query ProductSection {
+          ProductSection: productSections(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,productDescription
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },productCards { id },productDisplay { id },button { id },backgroundImage { id },scheduledIn { id },backgroundImageAlignment
+}
+          }
+        ",
+  "query FrontPage {
+          FrontPage: frontPages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,description
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },seoImage { id },modules {
+            ... on ReviewsModule { id, __typename }
+... on Hero { id, __typename }
+... on Coffee { id, __typename }
+... on BigFeature { id, __typename }
+... on ContentBlock { id, __typename }
+... on PromotionCarousel { id, __typename }
+... on ProductDisplay { id, __typename }
+          },scheduledIn { id },market,referenceTitle
+}
+          }
+        ",
+  "query SeriesPage {
+          SeriesPage: seriesPages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,description
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },slug,scheduledIn { id },seoImage { id },productPages { id },modules {
+            ... on Hero { id, __typename }
+... on SeriesIntro { id, __typename }
+... on FeatureSlider { id, __typename }
+... on ContentBlock { id, __typename }
+... on PromotionCarousel { id, __typename }
+... on PromotionBanner { id, __typename }
+          },hidePageOnMarkets
+}
+          }
+        ",
+  "query ProductPage {
+          ProductPage: productPages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,description
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },productModel { id },scheduledIn { id },slug,seriesPage { id },seoImage { id },hidePageOnMarkets,modules {
+            ... on FeatureSlider { id, __typename }
+... on PdpHero { id, __typename }
+... on TextModule { id, __typename }
+... on ReviewsSlider { id, __typename }
+... on AccordionModule { id, __typename }
+... on ProductSelect { id, __typename }
+... on Coffee { id, __typename }
+... on CompareTool { id, __typename }
+... on ContentBlock { id, __typename }
+... on PromotionCarousel { id, __typename }
+... on PromotionBanner { id, __typename }
+... on SpecsBlock { id, __typename }
+... on MediaGallery { id, __typename }
+... on ModelLink { id, __typename }
+          }
+}
+          }
+        ",
+  "query ContactInfoItem {
+          ContactInfoItem: contactInfoItems(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },titleReference,market,title,subtitle,scheduledIn { id },bodyCopy,buttonLabel,buttonUrl,openFromWeekday,openToWeekday,openFromWeekend,openToWeekend
+}
+          }
+        ",
+  "query CompareTool {
+          CompareTool: compareTools(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  cardHeading,aestheticDesign,color,mainBodyMaterial,userInterfaceFrame,userInterface,userInterfaceDescription,theaterLights,cupHolder,dripTrayGrid,milkContainer,aromaSeal,dumpTrayCapacity,waterTankMaterial,beansGWaterL,milkSolution,milkContainerLid,capacityMilkContainer,ofRecipes,inCupQualityAndVariety,espresso,coffee,americano,ristretto,cafeCrema,espressoLungo,cappuccino,latteMacchiato,cafeAuLait,espressoMacchiato,italianCappucchino,travelMug,flatWhite,cafeLatte,espressoDoppio,cafeCortado,melange,galao,verlangerter,kleinerBrauner,hotWater,milkFroth,warmMilk,doubleCupFunctionBlackCoffees,doubleCupFunctionMilkCoffees,range,softwareVersion,carouselInOtherDrinksMenu,coffeeMaestro,beanMaestro,connected,easeOfUseAndMaintenance,grinder,coffeeStrength,lengthOfCoffee,lengthCappuccino,userProfiles,drinks,foamLevels,defaultPumpPressure,extrashotEspresso,coffeePowder,drinkCustomization,theaterLight,standByTime,displayBrightness,waterHardness,factoryDefault,productCounter,language,soundFeedback,support,unitsMlOz,startupRinsing,hygieSteam,descaling,aquaClean,deepMilkClean,brewunitClean,removableBrewingUnit,removalAngle,fullAutomaticRinsing,fullAutomaticDescaling,aquaCleanFilter,aquaCleanReminderOnDisplay,dishwasherProofMilkSolution,beanEmpty,descalingReminderOnDisplay,hygieSteamInCleaningMenu,animationGuidance,energyAndDimensions,dimensionsOfMachine,autoShutOffTime,energyClass,energyConsumptionStandby,energyConsumptionOperating,warranty,connectivity,attentiveness,amazonDrs,alexaVoiceControl,shop,contentUpdatableViaWifi
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },title,ctn,scheduledIn { id },productPages { id }
+}
+          }
+        ",
+  "query CookiePolicy {
+          CookiePolicy: cookiePolicies(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },title,description,market,text { raw },scheduledIn { id }
+}
+          }
+        ",
+  "query ContactInfoModule {
+          ContactInfoModule: contactInfoModules(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },titleReference,market,contactInfoItems { id },scheduledIn { id }
+}
+          }
+        ",
+  "query Miscellaneous {
+          Miscellaneous: miscellaneousPlural(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  search,account,dashboard,logOut,open,close,compareModels,select,add,change,series,country,selectCountry,startTyping,logo,goToNextSlide,goToPreviousSlide,noResultsFoundMessage,noResults,page404title,page404button,compare,buy,from,to,send,remove,email,viewSpecs,available,unavailable,firstName,back,chooseARetailer,noAvailableProducts,download,readMore,otherModelsLinkLabel,supportLinkLabel,supportLinkLabelMobile,modelsLinkLabel,modelsLinkLabelMobile,quickAccess,orLearnMore,seeMore,seeLess,contact,chatIsOffline,review,madeInItaly,designedInItaly,disclaimer1,disclaimer2,disclaimer3,validUntil,useCode,on,philipsRetailerLabel,colorFront
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },scheduledIn { id }
+}
+          }
+        ",
+  "query TermsOfUse {
+          TermsOfUse: termsOfUses(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },title,description,market,text { raw },scheduledIn { id }
+}
+          }
+        ",
+  "query PrivacyPolicy {
+          PrivacyPolicy: privacyPolicies(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },title,description,market,text { raw },scheduledIn { id }
+}
+          }
+        ",
+  "query VideoGrid {
+          VideoGrid: videoGrids(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  heading
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },media {
+            ... on LocalizedImage { id, __typename }
+... on YouTubeLink { id, __typename }
+          },supportVideosPages { id },descalePages { id },scheduledIn { id }
+}
+          }
+        ",
+  "query YouTubeLink {
+          YouTubeLink: youTubeLinks(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,url
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },videoGrids { id },scheduledIn { id }
+}
+          }
+        ",
+  "query Consent {
+          Consent: consents(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },title,description,market,text { raw },scheduledIn { id }
+}
+          }
+        ",
+  "query TextModule {
+          TextModule: textModules(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  text { raw }
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },titleForReference,narrowWidth,warrantyPages { id },scheduledIn { id },productPages { id }
+}
+          }
+        ",
+  "query Imprint {
+          Imprint: imprints(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },title,description,market,text { raw },scheduledIn { id }
+}
+          }
+        ",
+  "query LocalizedImage {
+          LocalizedImage: localizedImages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,alt
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },videoGrids { id },image { id },typeOfCoffeeDrinks { id },bigFeatureProductImage { id },productCards { id },exampleComponent { id },scheduledIn { id },reviewsModules { id },bigFeatureProductImageTablet { id },mediaGalleries { id },reviewsModulesRight { id },bigFeatureProductImageMobileNew { id },pdpHeroesProductImage { id },seriesIntros { id },specsBlocks { id },searchResultItems { id },productSections { id },featureSliderItems { id },seriesIntroCards { id },contentBlockNew { id },heroes { id },heroesBackgroundImagePortrait { id },contentBlock { id }
+}
+          }
+        ",
+  "query OpenSourcePage {
+          OpenSourcePage: openSourcePages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },title,description,text { raw },scheduledIn { id }
+}
+          }
+        ",
+  "query NamedLink {
+          NamedLink: namedLinks(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  label
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },href,scheduledIn { id }
+}
+          }
+        ",
+  "query SupportHero {
+          SupportHero: supportHeroes(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  heading,bodyText
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },localizedImage { id },careSupportPages { id },scheduledIn { id }
+}
+          }
+        ",
+  "query PromotionBanner {
+          PromotionBanner: promotionBanners(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },referenceTitle,market,promotions { id },scheduledIn { id },productPages { id },seriesPages { id }
+}
+          }
+        ",
+  "query ProductCtn {
+          ProductCtn: productCtns(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  color,mainBodyMaterial,userInterfaceFrame,dripTrayGrid,dumpTrayCapacity,milkContainerLid,grinder,userProfiles,drinks,foamLevels,drinkCustomization,removalAngle,energyClass,warranty,rrp,highlightedFeaturesForCard
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },ctn,isAvailableOnMarket,productImage { id },scheduledIn { id },aestheticDesign,promotions { id },productColor,userInterface,userInterfaceDescription,theaterLights,cupHolder,milkContainer,aromaSeal,waterTankMaterial,beansGWaterL,milkSolution,capacityMilkContainer,ofRecipes,inCupQualityAndVariety,espresso,coffee,americano,ristretto,cafeCrema,espressoLungo,cappuccino,latteMacchiato,cafeAuLait,espressoMacchiato,italianCappucchino,travelMug,flatWhite,cafeLatte,espressoDoppio,cafeCortado,melange,galao,verlangerter,kleinerBrauner,hotWater,milkFroth,warmMilk,doubleCupFunctionBlackCoffees,doubleCupFunctionMilkCoffees,range,softwareVersion,carouselInOtherDrinksMenu,coffeeMaestro,beanMaestro,connected,easeOfUseAndMaintenance,coffeeStrength,lengthOfCoffee,lengthCappuccino,defaultPumpPressure,extrashotEspresso,coffeePowder,theaterLight,standByTime,displayBrightness,waterHardness,factoryDefault,productCounter,language,soundFeedback,support,unitsMlOz,startupRinsing,hygieSteam,descaling,aquaClean,deepMilkClean,brewunitClean,removableBrewingUnit,fullAutomaticRinsing,fullAutomaticDescaling,aquaCleanFilter,aquaCleanReminderOnDisplay,dishwasherProofMilkSolution,beanEmpty,descalingReminderOnDisplay,hygieSteamInCleaningMenu,animationGuidance,energyAndDimensions,dimensionsOfMachine,autoShutOffTime,energyConsumptionStandby,energyConsumptionOperating,connectivity,attentiveness,amazonDrs,alexaVoiceControl,shop,contentUpdatableViaWifi,iconsForHighlightedFeatures,eans,upcs
+}
+          }
+        ",
+  "query ArticleHero {
+          ArticleHero: articleHeroes(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,subtitle
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },supportVideosPages { id },warrantyPages { id },descalePages { id },contactPages { id },scheduledIn { id }
+}
+          }
+        ",
+  "query ContentBlock {
+          ContentBlock: contentBlocks(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  label,heading,body
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },accordionModules { id },title,reverse,flag,frontPages { id },modelsPages { id },scheduledIn { id },button { id },frontSrc { id },frontSrcAlignment,frontVideoSrc { id },productPages { id },seriesPages { id },backSrc { id },backSrcAlignment,videoSrc { id },footnote,backgroundVideoPortrait { id }
+}
+          }
+        ",
+  "query Button {
+          Button: buttons(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  label
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },referenceTitle,slug,searchResultItems { id },scheduledIn { id },textBlocks { id },isInternal,market,productSection { id },hero { id },seriesIntroCards { id },contentBlockNew { id }
+}
+          }
+        ",
+  "query PromotionCarousel {
+          PromotionCarousel: promotionCarousels(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },referenceTitle,market,title,frontPages { id },promotions { id },scheduledIn { id },productPages { id },seriesPages { id }
+}
+          }
+        ",
+  "query ScheduledOperation {
+          ScheduledOperation: scheduledOperations(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },status,description,errorMessage, ,affectedDocuments {
+            ... on AccessoriesPartsPage { id, __typename }
+... on ServiceRepairPage { id, __typename }
+... on Button { id, __typename }
+... on SearchResultItem { id, __typename }
+... on Asset { id, __typename }
+... on Sidebar { id, __typename }
+... on TextBlock { id, __typename }
+... on TextGrid { id, __typename }
+... on BigFeatureItem { id, __typename }
+... on CareSupportPage { id, __typename }
+... on SupportSection { id, __typename }
+... on FaqPage { id, __typename }
+... on DescalePage { id, __typename }
+... on SupportVideosPage { id, __typename }
+... on Manual { id, __typename }
+... on WarrantyPage { id, __typename }
+... on ContactPage { id, __typename }
+... on ProductAndUserRegistrationField { id, __typename }
+... on ModelsPage { id, __typename }
+... on ExampleComponent { id, __typename }
+... on Currency { id, __typename }
+... on Hero { id, __typename }
+... on SocialLink { id, __typename }
+... on Coffee { id, __typename }
+... on MediaGallery { id, __typename }
+... on ReviewsSlider { id, __typename }
+... on ModelLink { id, __typename }
+... on PdpHero { id, __typename }
+... on ReviewsModule { id, __typename }
+... on Footer { id, __typename }
+... on FeatureSliderItem { id, __typename }
+... on ProductSelect { id, __typename }
+... on FeatureSlider { id, __typename }
+... on SeriesIntroCard { id, __typename }
+... on SeriesIntro { id, __typename }
+... on Faq { id, __typename }
+... on FaqItem { id, __typename }
+... on SpecsBlock { id, __typename }
+... on AccordionModule { id, __typename }
+... on ProductDisplay { id, __typename }
+... on Header { id, __typename }
+... on ProductCtnBuyUrl { id, __typename }
+... on ProductModel { id, __typename }
+... on TypeOfCoffeeDrink { id, __typename }
+... on BigFeature { id, __typename }
+... on ProductSection { id, __typename }
+... on SeriesPage { id, __typename }
+... on ProductPage { id, __typename }
+... on ContactInfoItem { id, __typename }
+... on CompareTool { id, __typename }
+... on CookiePolicy { id, __typename }
+... on ContactInfoModule { id, __typename }
+... on Miscellaneous { id, __typename }
+... on TermsOfUse { id, __typename }
+... on PrivacyPolicy { id, __typename }
+... on VideoGrid { id, __typename }
+... on YouTubeLink { id, __typename }
+... on Consent { id, __typename }
+... on TextModule { id, __typename }
+... on Imprint { id, __typename }
+... on LocalizedImage { id, __typename }
+... on OpenSourcePage { id, __typename }
+... on NamedLink { id, __typename }
+... on SupportHero { id, __typename }
+... on PromotionBanner { id, __typename }
+... on ProductCtn { id, __typename }
+... on ArticleHero { id, __typename }
+... on Promotion { id, __typename }
+... on ContentBlock { id, __typename }
+... on PromotionCarousel { id, __typename }
+... on FrontPage { id, __typename }
+... on ProductCard { id, __typename }
+          },release { id }
+}
+          }
+        ",
+  "query ScheduledRelease {
+          ScheduledRelease: scheduledReleases(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },title,description,errorMessage,isActive,status,isImplicit,releaseAt,operations { id }
+}
+          }
+        ",
+  "query ServiceRepairPage {
+          ServiceRepairPage: serviceRepairPages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },referenceTitle,title,scheduledIn { id },description,buttons { id }
+}
+          }
+        ",
+  "query AccessoriesPartsPage {
+          AccessoriesPartsPage: accessoriesPartsPages(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },referenceTitle,title,description,buttons { id },scheduledIn { id }
+}
+          }
+        ",
+  "query FeatureSliderItem {
+          FeatureSliderItem: featureSliderItems(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,description
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },referenceTitle,featureSliders { id },scheduledIn { id },featureIcon,featureImage { id }
+}
+          }
+        ",
+  "query Header {
+          Header: headers(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  searchPlaceholder,popularSearchLabel
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },seriesPages { id },supportLinks { id },scheduledIn { id }
+}
+          }
+        ",
+  "query Promotion {
+          Promotion: promotions(
+              stage: DRAFT
+              first: 1000
+            ) {
+            id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },title,market,expires,scheduledIn { id },promotion,eligibility {
+            ... on ProductCtnBuyUrl { id, __typename }
+... on ProductModel { id, __typename }
+... on ProductCtn { id, __typename }
+          },couponCode,description { raw },button { id },image { id },productShot,tooltip,fineprint,featured
+}
+          }
+        ",
+  "query SeriesIntroCard {
+          SeriesIntroCard: seriesIntroCards(
+              stage: DRAFT
+              first: 1000
+            ) {
+            localizations( includeCurrent: true ) {
+                  locale
+                  title,spec,fromLabel
+                }
+                id,createdAt,createdBy { id },updatedAt,updatedBy { id },publishedAt,publishedBy { id },linkToProduct { id },scheduledIn { id },seriesIntros { id },productImage { id },productModels { id }
+}
+          }
+        "
+]

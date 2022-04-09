@@ -1,5 +1,5 @@
 import {gql} from 'graphql-request';
-// import { OptionsType, EnvironmentType } from '../main';
+import type {OptionsType, EnvironmentType} from '../@types/main';
 import type {FieldType, ModelType} from '../@types/schema';
 import processRequests from './processRequests';
 
