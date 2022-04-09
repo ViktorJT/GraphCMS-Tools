@@ -1,16 +1,18 @@
 {
-  "name": "graphcms-importer",
+  "name": "@graphcms-tools/importer",
   "version": "1.0.0",
   "description": "Import content to GraphCMS",
   "main": "main.ts",
   "type": "module",
   "scripts": {
     "import": "node --experimental-specifier-resolution=node --require dotenv/config dist/main.js",
-    "build": "tsc"
+    "tsc": "tsc"
   },
   "author": "Viktor Jensen-Torp",
   "license": "ISC",
   "dependencies": {
+    "@tsconfig/node16": "^1.0.2",
+    "@types/graphql": "^14.5.0",
     "dotenv": "^16.0.0",
     "graphql": "^16.3.0",
     "graphql-request": "^4.0.0",
