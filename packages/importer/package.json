@@ -5,51 +5,13 @@
   "main": "main.ts",
   "type": "module",
   "scripts": {
-    "import": "node --experimental-specifier-resolution=node --require dotenv/config dist/main.js",
     "tsc": "tsc"
   },
   "author": "Viktor Jensen-Torp",
   "license": "ISC",
   "dependencies": {
-    "@tsconfig/node16": "^1.0.2",
-    "@types/graphql": "^14.5.0",
-    "dotenv": "^16.0.0",
     "graphql": "^16.3.0",
     "graphql-request": "^4.0.0",
     "stringify-object": "^4.0.1"
-  },
-  "devDependencies": {
-    "@tsconfig/node16": "^1.0.2",
-    "@types/graphql": "^14.5.0",
-    "@types/node": "^17.0.18",
-    "@types/stringify-object": "^4.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.12.0",
-    "@typescript-eslint/parser": "^5.12.0",
-    "eslint": "^8.9.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4",
-    "typescript": "^4.5.5"
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": false,
-      "node": true,
-      "commonjs": false,
-      "es2020": true
-    },
-    "extends": [
-      "plugin:@typescript-eslint/recommended"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "ecmaVersion": 2020,
-      "sourceType": "module"
-    },
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "rules": {
-      "no-console": "off"
-    }
   }
 }
