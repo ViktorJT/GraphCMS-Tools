@@ -68,15 +68,4 @@ async function exportData(
   return results;
 }
 
-if (!process.env.GRAPHCMS_PROJECT_ID) throw new Error('Please provide a valid project ID');
-if (!process.env.GRAPHCMS_PERMANENT_ACCESS_TOKEN)
-  throw new Error('Please provide a valid project ID');
-if (!process.env.GRAPHCMS_CONTENT_API) throw new Error('Please provide a valid content api url');
-
-exportData({
-  contentApi: process.env.GRAPHCMS_CONTENT_API,
-  projectId: process.env.GRAPHCMS_PROJECT_ID,
-  permanentAccessToken: process.env.GRAPHCMS_PERMANENT_ACCESS_TOKEN,
-});
-
 export default exportData;
