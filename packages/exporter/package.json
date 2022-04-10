@@ -2,7 +2,7 @@
   "name": "@graphcms-tools/exporter",
   "version": "1.0.0",
   "description": "Export content from GraphCMS",
-  "main": "src/main.ts",
+  "main": "lib/main.js",
   "files": [
     "src/**/*"
   ],
@@ -11,7 +11,6 @@
   },
   "author": "Viktor Jensen-Torp",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "graphql": "^16.3.0",
     "graphql-request": "^4.0.0"

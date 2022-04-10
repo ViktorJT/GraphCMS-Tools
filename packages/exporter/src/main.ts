@@ -5,7 +5,7 @@ import type {OptionsType, EnvironmentType} from './types';
 
 import {schemaQuery} from './queries/schemaQuery';
 
-async function exportData(
+export async function exportData(
   environment: EnvironmentType,
   options: OptionsType = {
     concurrency: 1,

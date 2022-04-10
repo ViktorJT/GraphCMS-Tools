@@ -2,8 +2,7 @@
   "name": "@graphcms-tools/importer",
   "version": "1.0.0",
   "description": "Import content to GraphCMS",
-  "main": "main.ts",
-  "type": "module",
+  "main": "lib/main.js",
   "scripts": {
     "tsc": "tsc"
   },

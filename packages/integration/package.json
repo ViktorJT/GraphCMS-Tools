@@ -1,6 +1,7 @@
 {
   "name": "integration",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,6 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@graphcms-tools/exporter": "^1.0.0",
     "@graphcms-tools/importer": "^1.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.7.0"
   }
 }
