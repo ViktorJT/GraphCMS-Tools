@@ -29,6 +29,8 @@ export async function exportData(
 ) {
   const targetEnvironment = /\w+$/g.exec(environment.contentApi);
 
+  console.log(targetEnvironment);
+
   if (!targetEnvironment)
     throw new Error(
       'No environment found. Provide a content api url containing a valid target environment'
@@ -39,6 +41,8 @@ export async function exportData(
     ...environment,
     ...options,
   };
+
+  console.log(global.config);
 
   Object.freeze(global.config);
 

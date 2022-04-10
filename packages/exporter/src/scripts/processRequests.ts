@@ -9,6 +9,8 @@ const processRequests = async (
 ): Promise<RequestResultsType> => {
   console.log('… Processing requests…');
 
+  console.log(variables);
+
   if (typeof operations === 'string') operations = [operations];
 
   try {
@@ -50,7 +52,7 @@ const processRequests = async (
 
       index += global.config.concurrency;
     }
-    console.log(`\tSuccessfully processed ${operations.length} requests`);
+    console.log(`\t${operations.length} requests processed`);
     return results;
   } catch (e) {
     throw new Error('Something went wrong while processing requests');
