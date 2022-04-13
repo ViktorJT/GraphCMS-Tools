@@ -59,7 +59,7 @@ export async function exportData(
 
   const queries = generateQueries(modelSchema);
 
-  const exportSpinner = ora({text: '0% – Exporting content…', spinner: 'clock'}).start();
+  const exportSpinner = ora({text: 'Exporting content – 0%', spinner: 'clock'}).start();
 
   const results = await processRequests(exportSpinner, queries, global.config.contentApi);
 
