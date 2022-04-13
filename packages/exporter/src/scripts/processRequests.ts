@@ -1,59 +1,44 @@
 /* eslint-disable no-await-in-loop */
 import {GraphQLClient} from 'graphql-request';
-import type {RequestResultsType, RequestVariablesType} from '../types';
+import type {Ora} from 'ora';
+import type {RequestVariablesType} from '../types/index.js';
 
 const processRequests = async (
-  operations: string[] | string,
+  spinner: Ora,
+  operations: string[],
   endpoint: string,
   variables?: RequestVariablesType
-): Promise<RequestResultsType> => {
-  console.log('… Processing requests…');
-
-  console.log(variables);
-
-  if (typeof operations === 'string') operations = [operations];
-
+) => {
   try {
-    let allOperations = operations;
-    const results: RequestResultsType = {fulfilled: [], rejected: []};
-    let index = 1;
+    let allOperations = [...operations];
+    const operationResults = [];
 
     while (allOperations.length > 0) {
-      const batchedClients: Promise<unknown>[] = allOperations
-        .slice(0, global.config.concurrency)
-        .map((request) => {
-          const client = new GraphQLClient(endpoint, {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${global.config.permanentAccessToken}`,
-            },
-          });
-          return client.request(request, variables);
+      const batchedClients = allOperations.slice(0, global.config.concurrency).map((request) => {
+        const client = new GraphQLClient(endpoint, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${global.config.permanentAccessToken}`,
+          },
         });
+        return client.request(request, variables);
+      });
 
-      // deconstruct here instead of array mehtods and stuff below??
-      const result = await Promise.allSettled(batchedClients);
+      const result = await Promise.all(batchedClients);
 
-      if (result.some((res) => res.status === 'fulfilled')) {
-        results.fulfilled = result
-          .filter((res) => res.status === 'fulfilled')
-          .map(({value}: any) => value);
-      }
-
-      if (result.some((res) => res.status === 'rejected')) {
-        results.rejected = result.filter((res) => res.status === 'rejected');
-      }
+      operationResults.push(...result);
 
       allOperations = allOperations.slice(global.config.concurrency);
 
-      console.log(
-        `… Processing request #${index} of ${operations.length}, ${allOperations.length} remaining…`
-      );
-
-      index += global.config.concurrency;
+      if (operations.length !== 1) {
+        const percentageDone = Math.ceil(
+          ((operations.length - allOperations.length) / operations.length) * 100
+        );
+        spinner.text = `${percentageDone}% – Exporting content`;
+      }
     }
-    console.log(`\t${operations.length} requests processed`);
-    return results;
+
+    return operationResults;
   } catch (e) {
     throw new Error('Something went wrong while processing requests');
   }

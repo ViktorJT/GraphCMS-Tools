@@ -1,8 +1,6 @@
 /* eslint-disable indent */
-import {ModelType, FieldType} from '../types';
-
-const lowerCaseFirstLetter = (string: string): string =>
-  string.charAt(0).toLowerCase() + string.slice(1);
+import lowerCaseFirstLetter from '../helpers/lowerCaseFirstLetter.js';
+import {ModelType, FieldType} from '../types/index.js';
 
 const triage = (apiId: string, isSystem?: boolean): boolean => {
   if (apiId === 'id') return true;
@@ -120,8 +118,6 @@ const generateQueries = (schema: ModelType[]) => {
     },
     []
   );
-
-  console.log(`\tSuccessfully generated ${contentQueries.length} queries`);
 
   return contentQueries;
 };

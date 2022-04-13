@@ -1,9 +1,12 @@
-import generateQueries from './scripts/generateQueries';
-import processRequests from './scripts/processRequests';
+import ora from 'ora';
 
-import type {OptionsType, EnvironmentType} from './types';
+import type {OptionsType, EnvironmentType, ModelType} from './types/index.js';
 
-import {schemaQuery} from './queries/schemaQuery';
+import setGlobalConfig from './scripts/setGlobalConfig.js';
+import processRequests from './scripts/processRequests.js';
+import generateQueries from './scripts/generateQueries.js';
+
+import {schemaQuery} from './queries/schemaQuery.js';
 
 export async function exportData(
   environment: EnvironmentType,
@@ -27,27 +30,13 @@ export async function exportData(
     },
   }
 ) {
-  const targetEnvironment = /\w+$/g.exec(environment.contentApi);
+  setGlobalConfig(environment, options);
 
-  console.log(targetEnvironment);
+  const schemaSpinner = ora({text: 'Exporting schema…', spinner: 'clock'}).start();
 
-  if (!targetEnvironment)
-    throw new Error(
-      'No environment found. Provide a content api url containing a valid target environment'
-    );
-
-  global.config = {
-    targetEnvironment: targetEnvironment[0],
-    ...environment,
-    ...options,
-  };
-
-  console.log(global.config);
-
-  Object.freeze(global.config);
-
-  const {fulfilled: schemaQueryResults, rejected} = await processRequests(
-    schemaQuery,
+  const schemaQueryResults = await processRequests(
+    schemaSpinner,
+    [schemaQuery],
     'https://management-next.graphcms.com/graphql',
     {
       projectId: global.config.projectId,
@@ -58,18 +47,29 @@ export async function exportData(
     }
   );
 
-  if (rejected.length) console.log(`${rejected.length} requests rejected`);
+  if (schemaQueryResults.length === 0) {
+    schemaSpinner.fail('Exporting schema failed');
+    throw new Error('Something went wrong!');
+  } else {
+    schemaSpinner.succeed('Successfully exported schema');
+  }
 
-  const modelSchema = schemaQueryResults[0].viewer.project.environment.contentModel.models;
+  const modelSchema: ModelType[] =
+    schemaQueryResults[0].viewer.project.environment.contentModel.models;
 
   const queries = generateQueries(modelSchema);
 
-  const results = await processRequests(queries, environment.contentApi, {
-    concurrency: options.concurrency,
-    permanentAccessToken: environment.permanentAccessToken,
-  });
+  const exportSpinner = ora({text: '0% – Exporting content…', spinner: 'clock'}).start();
 
-  return results;
+  const results = await processRequests(exportSpinner, queries, global.config.contentApi);
+
+  if (results.length === 0) {
+    exportSpinner.fail('Exporting content failed');
+    throw new Error('Something went wrong!');
+  } else {
+    exportSpinner.succeed('Successfully exported content');
+    return results;
+  }
 }
 
 export default exportData;
