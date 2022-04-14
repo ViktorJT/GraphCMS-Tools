@@ -2,7 +2,14 @@
   "name": "@graphcms-tools/importer",
   "version": "1.0.0",
   "description": "Import content to GraphCMS",
-  "main": "lib/main.js",
+  "exports": "./lib/main.js",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  },
+  "files": [
+    "src/**/*"
+  ],
+  "type": "module",
   "scripts": {
     "tsc": "tsc"
   },
@@ -11,6 +18,7 @@
   "dependencies": {
     "graphql": "^16.3.0",
     "graphql-request": "^4.0.0",
+    "ora": "^6.1.0",
     "stringify-object": "^4.0.1"
   }
 }

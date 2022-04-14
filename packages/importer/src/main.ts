@@ -1,50 +1,33 @@
-// * General
-// TODO: Remove DotEnv and other dependencies from both scripts
-
-// * Main.ts
-// TODO: Replace JSON data input with 'regular' props
-
-// * GenerateConfig.ts
-// TODO: -
-
-// * ProcessRequests.ts
-// TODO: Finish refactoring fulfilled / rejected requests logic
-
 // * generateContentMutations.ts
 // TODO: Make a variable for hasLocalizedFields or hasNonLocalizedFields to not have to check length everywhere
 // TODO: Filter the localizedFields for en locale before this step, like I do for defaultLocaleFields?
 // TODO: Add options for 'mode' apart from 'Upsert'
 // TODO: (InterpolateInstance)
-         // TODO: Create assumeType function to make code more readable?
-         // TODO: Make a helper wrapper function that can handle reference fields with 'connect:'
+// TODO: Create assumeType function to make code more readable?
+// TODO: Make a helper wrapper function that can handle reference fields with 'connect:'
 // TODO: (ParseFields)
-         // TODO: Make an assumeType function that just returns a string corresponding to a __typename or type
-         // TODO: Find better way to identify fields that need to be wrapped
-         // TODO: Create & check validations against metadata?
+// TODO: Make an assumeType function that just returns a string corresponding to a __typename or type
+// TODO: Find better way to identify fields that need to be wrapped
+// TODO: Create & check validations against metadata?
+// TODO: Refactor exlude list to be an array of keys to exclude?
 
-// * generatePublishMutations.ts
-// TODO: Refactor the dumb flatmap thing, reduce instead?
-// TODO: add targetstages in reduce initializer of stages variable instead, and fill in the new locales then?
-// TODO: Refactor newLocales logic (same as prev. point about target stages?)
+import ora from 'ora';
 
-// * global.d.ts
-// TODO: Check which need to be exported / not
+import exportSchema from './scripts/exportSchema.js';
+import generateMetadata from './scripts/generateMetadata.js';
+import setGlobalConfig from './scripts/setGlobalConfig.js';
+import generateContentMutations from './scripts/generateContentMutations.js';
+import processRequests from './scripts/processRequests.js';
 
-import testData from '../data/test.json';
-import generateConfig from './scripts/generateConfig';
-import generateContentMutations from './scripts/generateContentMutations';
-import generatePublishMutations from './scripts/generatePublishMutations';
-import processRequests from './scripts/processRequests';
-import type { ModelType, EnvironmentType, OptionsType } from "./@types/global"
+import schemaQuery from './queries/schemaQuery.js';
 
-async function importData(
-  data: ModelType[],
+import type {DataType, EnvironmentType, OptionsType} from './types/index.js';
+
+export async function importData(
+  data: DataType[],
   environment: EnvironmentType,
   options: OptionsType = {
-    concurrency: 1,
-    newLocales: ['et', 'hr', 'lt', 'lv', 'ru', 'sk', 'sl', 'sr'],
-    targetStages: ['QA', 'PUBLISHED'],
-    mode: 'upsert',
+    concurrency: 3,
     exclude: {
       model: {
         User: true, // ! Required
@@ -54,33 +37,41 @@ async function importData(
         updatedBy: true, // ! Required
       },
     },
-  },
+  }
 ) {
-  global.config = await generateConfig(environment, options);
-  Object.freeze(global.config);
+  const schemaSpinner = ora({text: 'Exporting schema…', spinner: 'clock'}).start();
+
+  const schema = await exportSchema(schemaQuery, {
+    permanentAccessToken: environment.permanentAccessToken,
+    projectId: environment.projectId,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    targetEnvironment: /\w+$/g.exec(environment.contentApi)![0],
+  });
+
+  if (!schema) {
+    schemaSpinner.fail('Exporting schema failed');
+    throw Error('Something went wrong!');
+  } else {
+    schemaSpinner.succeed('Successfully exported schema');
+  }
+
+  const metadata = generateMetadata(schema);
+
+  setGlobalConfig(environment, options, metadata);
 
   const contentMutations = generateContentMutations(data);
-  const contentResults = await processRequests(contentMutations, global.config.environment.contentApi);
 
-  if (!contentResults) throw new Error('Something went wrong');
+  const importSpinner = ora({text: 'Importing content – 0%', spinner: 'clock'}).start();
 
-  const publishMutations = generatePublishMutations(contentResults.fulfilled);
+  const contentResults = await processRequests(importSpinner, contentMutations);
 
-  const results = await processRequests(
-    publishMutations,
-    environment.contentApi,
-  );
+  if (contentResults.fulfilled.length === 0) {
+    importSpinner.fail('Imported content failed');
+  } else {
+    importSpinner.succeed('Successfully imported content');
+  }
 
-  return results; // TODO Make it so ALL successful and REJECTED requests are returned
+  return [contentResults.fulfilled, contentResults.rejected];
 }
-
-importData(
-  testData, // ? Probably fine to leave this since I won't be loading JSON data later
-  {
-    contentApi: process.env.GRAPHCMS_CONTENT_API,
-    projectId: process.env.GRAPHCMS_PROJECT_ID,
-    permanentAccessToken: process.env.GRAPHCMS_PERMANENT_ACCESS_TOKEN,
-  },
-);
 
 export default importData;

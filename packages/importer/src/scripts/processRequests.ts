@@ -1,58 +1,55 @@
 /* eslint-disable no-await-in-loop */
-import { GraphQLClient } from 'graphql-request';
-import type { RequestResultsType, RequestVariablesType } from '../@types/global';
+import type {Ora} from 'ora';
+import {GraphQLClient} from 'graphql-request';
+import type {RequestResultsType, ContentMutationsType} from '../types/index.js';
 
-const processRequests = async (
-  operations: string[] | string,
-  endpoint: string,
-  variables?: RequestVariablesType,
-): Promise<RequestResultsType | null> => {
-  console.log('… Executing requests…');
-
-  if (typeof operations === 'string') operations = [operations];
-
+const processRequests = async (spinner: Ora, operations: string[]): Promise<RequestResultsType> => {
   try {
-    let allOperations: string[] = operations;
-    const results: RequestResultsType = { fulfilled:[], rejected:[] };
-    let index = 1;
+    let allOperations = [...operations];
+    const results: RequestResultsType = {fulfilled: [], rejected: []};
 
     while (allOperations.length > 0) {
-      const batchedClients: Promise<unknown>[] = allOperations
-        .slice(0, global.config.options.concurrency)
-        .map((request) => {
-          const client = new GraphQLClient(endpoint, {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${global.config.environment.permanentAccessToken}`,
-            },
-          });
-          return client.request(request, variables);
+      const batchedClients = allOperations.slice(0, global.config.concurrency).map((request) => {
+        const client = new GraphQLClient(global.config.contentApi, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${global.config.permanentAccessToken}`,
+          },
         });
+        return client.request(request);
+      });
 
       const result = await Promise.allSettled(batchedClients);
 
-      console.log("result", result)
-
-      if (result.some(res => res.status === 'fulfilled')) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        results.fulfilled = result.filter(res => res.status === "fulfilled").map(({ value }: any) => value);
+      if (result.some((res) => res.status === 'fulfilled')) {
+        results.fulfilled = result
+          .filter(
+            (res: PromiseSettledResult<PromiseFulfilledResult<ContentMutationsType>>) =>
+              res.status === 'fulfilled'
+          )
+          .map(({value}: any) => value);
       }
 
-      if (result.some(res => res.status === 'rejected')) {
-        results.rejected = result.filter(res => res.status === "rejected");
+      if (result.some((res) => res.status === 'rejected')) {
+        results.rejected = result.filter(
+          (res: PromiseSettledResult<PromiseRejectedResult>) => res.status === 'rejected'
+        );
       }
 
-      allOperations = allOperations.slice(global.config.options.concurrency);
+      if (operations.length !== 1) {
+        const percentageDone = Math.ceil(
+          ((operations.length - allOperations.length) / operations.length) * 100
+        );
+        spinner.text = `Importing content – ${percentageDone}%`;
+      }
 
-      console.log(`… Processing request #${index} of ${operations.length}, ${allOperations.length} remaining…`);
-
-      index += global.config.options.concurrency;
+      allOperations = allOperations.slice(global.config.concurrency);
     }
-    console.log(`\tSuccessfully executed ${operations.length} requests`);
+
     return results;
   } catch (e) {
     console.error(e);
-    return null;
+    throw Error('Something went wrong.');
   }
 };
 

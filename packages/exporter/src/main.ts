@@ -6,7 +6,7 @@ import setGlobalConfig from './scripts/setGlobalConfig.js';
 import processRequests from './scripts/processRequests.js';
 import generateQueries from './scripts/generateQueries.js';
 
-import {schemaQuery} from './queries/schemaQuery.js';
+import schemaQuery from './queries/schemaQuery.js';
 
 export async function exportData(
   environment: EnvironmentType,
@@ -49,7 +49,7 @@ export async function exportData(
 
   if (schemaQueryResults.length === 0) {
     schemaSpinner.fail('Exporting schema failed');
-    throw new Error('Something went wrong!');
+    throw Error('Something went wrong!');
   } else {
     schemaSpinner.succeed('Successfully exported schema');
   }
@@ -65,7 +65,7 @@ export async function exportData(
 
   if (results.length === 0) {
     exportSpinner.fail('Exporting content failed');
-    throw new Error('Something went wrong!');
+    throw Error('Something went wrong!');
   } else {
     exportSpinner.succeed('Successfully exported content');
     return results;

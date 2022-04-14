@@ -1,11 +1,13 @@
-const query = gql`
-  query SchemaQuery($projectId: ID! $targetEnvironment: String) {
+import {gql} from 'graphql-request';
+
+export const schemaQuery = gql`
+  query SchemaQuery($projectId: ID!, $targetEnvironment: String!) {
     viewer {
       ... on TokenViewer {
         project(id: $projectId) {
           environment(name: $targetEnvironment) {
             contentModel {
-              allLocales: locales {
+              locales {
                 apiId
                 isDefault
               }
@@ -19,55 +21,8 @@ const query = gql`
                   ... on SimpleField {
                     type
                   }
-                  ... on IRequireableField {
-                    isRequired
-                  }
                   ... on ILocalizableField {
                     isLocalized
-                  }
-                  ... on IUniqueableField {
-                    isUnique
-                  }
-                  ... on SimpleField {
-                    validations {
-                      __typename
-                      ... on StringFieldValidations {
-                        characters {
-                          stringCharMin: min
-                          stringCharMax: max
-                        }
-                        listItemCount {
-                          stringListMin: min
-                          stringListMax: max
-                        }
-                        matches {
-                          regex
-                        }
-                        notMatches {
-                          regex
-                        }
-                      }
-                      ... on IntFieldValidations {
-                        range {
-                          intFieldMin: min
-                          intFieldMax: max
-                        }
-                        listItemCount {
-                          intListMin: min
-                          intListMax: max
-                        }
-                      }
-                      ... on FloatFieldValidations {
-                        range {
-                          floatRangeMin: min
-                          floatRangeMax: max
-                        }
-                        listItemCount {
-                          floatListMin: min
-                          flatListMax: max
-                        }
-                      }
-                    }
                   }
                   ... on EnumerableField {
                     enumeration {
@@ -84,3 +39,6 @@ const query = gql`
       }
     }
   }
+`;
+
+export default schemaQuery;

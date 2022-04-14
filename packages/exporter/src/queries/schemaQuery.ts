@@ -49,3 +49,5 @@ export const schemaQuery: string = gql`
     }
   }
 `;
+
+export default schemaQuery;

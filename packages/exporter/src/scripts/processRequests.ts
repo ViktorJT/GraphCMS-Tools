@@ -40,7 +40,7 @@ const processRequests = async (
 
     return operationResults;
   } catch (e) {
-    throw new Error('Something went wrong while processing requests');
+    throw Error('Something went wrong while processing requests');
   }
 };
 
