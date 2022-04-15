@@ -1,6 +1,6 @@
 {
   "name": "@graphcms-tools/publisher",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Publish content to GraphCMS",
   "homepage": "https://github.com/ViktorJT/GraphCMS-Tools#graphcms-tools",
   "repository": {
