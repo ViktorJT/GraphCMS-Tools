@@ -4,7 +4,7 @@
     "access": "public"
   },
   "name": "@graphcms-tools/publisher",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Publish content to GraphCMS",
   "homepage": "https://github.com/ViktorJT/GraphCMS-Tools#graphcms-tools",
   "repository": {
