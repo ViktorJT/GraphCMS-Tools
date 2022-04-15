@@ -1,4 +1,5 @@
 {
+  "private": "false",
   "name": "@graphcms-tools/publisher",
   "version": "0.0.5",
   "description": "Publish content to GraphCMS",
@@ -37,11 +38,11 @@
   "scripts": {
     "tsc": "tsc"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "graphql": "^16.3.0",
     "graphql-request": "^4.2.0",
     "ora": "^6.1.0"
   },
-  "gitHead": "3b00986840c0935980fe24c162408d89ced53e84"
+  "gitHead": "f189c80a610172c5291fc63ab5f55dfe92738b59"
 }
