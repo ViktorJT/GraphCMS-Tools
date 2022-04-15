@@ -1,6 +1,6 @@
 {
   "name": "@graphcms-tools/exporter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Export content from GraphCMS",
   "exports": "./lib/main.js",
   "engines": {
