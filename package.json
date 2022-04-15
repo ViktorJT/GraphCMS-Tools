@@ -7,6 +7,30 @@
   "scripts": {
     "publish": "lerna run tsc && lerna publish"
   },
+  "homepage": "https://github.com/ViktorJT/GraphCMS-Tools#graphcms-tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ViktorJT/GraphCMS-Tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ViktorJT/GraphCMS-Tools/issues",
+    "email": "v.jensentorp@gmail.com"
+  },
+  "author": "Viktor Jensen-Torp",
+  "contributors": [
+    {
+      "name": "Viktor Jensen-Torp",
+      "email": "v.jensentorp@gmail.com",
+      "url": "https://github.com/ViktorJT"
+    }
+  ],
+  "keywords": [
+    "graphCMS",
+    "data",
+    "export",
+    "import",
+    "publish"
+  ],
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",
     "@types/graphql": "^14.5.0",
