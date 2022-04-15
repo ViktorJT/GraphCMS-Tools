@@ -1,6 +1,9 @@
 {
   "name": "root",
-  "private": true,
+  "private": "false",
+  "publishConfig": {
+    "access": "public"
+  },
   "workspaces": [
     "packages/*"
   ],
@@ -25,6 +28,7 @@
       "url": "https://github.com/ViktorJT"
     }
   ],
+  "license": "MIT",
   "keywords": [
     "graphCMS",
     "data",
