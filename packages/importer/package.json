@@ -1,6 +1,6 @@
 {
   "name": "@graphcms-tools/importer",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Import content to GraphCMS",
   "exports": "./lib/main.js",
   "engines": {
