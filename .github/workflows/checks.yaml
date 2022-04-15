@@ -16,8 +16,17 @@ jobs:
         with:
           fetch-depth: 0 # Checkout all branches and tags
 
-      - name: Use Node.js ${{ matrix.node-version }} # Setup node using version matrix
-        uses: actions/setup-node@v2 # Public action
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      
+
+      - name: 'Setup npm' # Add our registry to npm config
+        run: | # Custom action
+          npm set @xcanchal:registry=https://npm.pkg.github.com/xcanchal
+          npm set "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Install dependencies
+        run: | # Install and link dependencies
+          npm ci
+          npx lerna bootstrap
