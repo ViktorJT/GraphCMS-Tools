@@ -1,7 +1,7 @@
 {
   "private": "false",
   "name": "@graphcms-tools/exporter",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Export content from GraphCMS",
   "homepage": "https://github.com/ViktorJT/GraphCMS-Tools#graphcms-tools",
   "repository": {
