@@ -2,6 +2,30 @@
   "name": "@graphcms-tools/publisher",
   "version": "0.0.4",
   "description": "Publish content to GraphCMS",
+  "homepage": "https://github.com/ViktorJT/GraphCMS-Tools#graphcms-tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ViktorJT/GraphCMS-Tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ViktorJT/GraphCMS-Tools/issues",
+    "email": "v.jensentorp@gmail.com"
+  },
+  "author": "Viktor Jensen-Torp",
+  "contributors": [
+    {
+      "name": "Viktor Jensen-Torp",
+      "email": "v.jensentorp@gmail.com",
+      "url": "https://github.com/ViktorJT"
+    }
+  ],
+  "keywords": [
+    "graphCMS",
+    "data",
+    "export",
+    "import",
+    "publish"
+  ],
   "exports": "./lib/main.js",
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
@@ -13,11 +37,11 @@
   "scripts": {
     "tsc": "tsc"
   },
-  "author": "Viktor Jensen-Torp",
   "license": "ISC",
   "dependencies": {
     "graphql": "^16.3.0",
     "graphql-request": "^4.2.0",
     "ora": "^6.1.0"
-  }
+  },
+  "gitHead": "3b00986840c0935980fe24c162408d89ced53e84"
 }
