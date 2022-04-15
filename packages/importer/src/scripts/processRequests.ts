@@ -22,18 +22,19 @@ const processRequests = async (spinner: Ora, operations: string[]): Promise<Requ
       const result = await Promise.allSettled(batchedClients);
 
       if (result.some((res) => res.status === 'fulfilled')) {
-        results.fulfilled = result
-          .filter(
-            (res: PromiseSettledResult<PromiseFulfilledResult<ContentMutationsType>>) =>
-              res.status === 'fulfilled'
-          )
-          .map(({value}: any) => value);
+        const fulfilledRequests = result
+          .filter((req: PromiseFulfilledResult<ContentMutationsType>) => req.status === 'fulfilled')
+          .map((req: PromiseFulfilledResult<ContentMutationsType>) => req.value);
+
+        if (fulfilledRequests.length !== 0) results.fulfilled.push(...fulfilledRequests);
       }
 
       if (result.some((res) => res.status === 'rejected')) {
-        results.rejected = result.filter(
-          (res: PromiseSettledResult<PromiseRejectedResult>) => res.status === 'rejected'
+        const rejectedRequests = result.filter(
+          (req: PromiseSettledResult<PromiseRejectedResult>) => req.status === 'rejected'
         );
+
+        if (rejectedRequests.length !== 0) results.rejected.push(...rejectedRequests);
       }
 
       if (operations.length !== 1) {

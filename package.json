@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@graphcms-tools/exporter": "file:packages/exporter",
-    "@graphcms-tools/importer": "file:packages/importer"
+    "@graphcms-tools/importer": "file:packages/importer",
+    "@graphcms-tools/publisher": "file:packages/publisher"
   }
 }

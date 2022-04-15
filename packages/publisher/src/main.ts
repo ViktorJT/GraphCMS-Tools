@@ -7,14 +7,15 @@ import ora from 'ora';
 
 import generatePublishMutations from './scripts/generatePublishMutations.js';
 import processRequests from './scripts/processRequests.js';
+
 import type {DataType, EnvironmentType, OptionsType} from './types/index.js';
 
 export async function publishData(
+  data: DataType[],
   environment: EnvironmentType,
   options: OptionsType = {
     concurrency: 3,
-  },
-  data: DataType[]
+  }
 ) {
   const publishMutations = generatePublishMutations(data);
 
@@ -30,9 +31,13 @@ export async function publishData(
   });
 
   if (publishResults.fulfilled.length === 0) {
-    spinner.fail('Imported content failed');
+    spinner.fail('Publishing content failed');
+  } else if (publishResults.fulfilled.length && publishResults.rejected.length) {
+    spinner.warn(
+      `Partially published content, ${publishResults.rejected.length} documents rejected`
+    );
   } else {
-    spinner.succeed('Successfully imported content');
+    spinner.succeed('Successfully published content');
   }
 
   return [publishResults.fulfilled, publishResults.rejected];

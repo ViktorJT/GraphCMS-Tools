@@ -100,7 +100,7 @@ const generateQueries = (schema: ModelType[]) => {
             ) {
             ${
               modelIsLocalized
-                ? `localizations(${
+                ? `localizations(includeCurrent: true ${
                     global.config.targetLocales.length
                       ? `locales: [${global.config.targetLocales}]`
                       : ''

@@ -159,6 +159,8 @@ const triageFields = (
     ({locale}: {locale: string}) => locale === global.config.defaultLocale
   )[0];
 
+  if (defaultLocaleFields?.length) console.log('test', defaultLocaleFields);
+
   return [filteredLocales || [], filteredNonLocalizedFields || [], defaultLocaleFields || []];
 };
 

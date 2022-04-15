@@ -1,6 +1,6 @@
 export interface RequestResultsType {
-  fulfilled: ContentMutationsType[] | [];
-  rejected: PromiseSettledResult<PromiseRejectedResult>[] | [];
+  fulfilled: ContentMutationsType[];
+  rejected: PromiseSettledResult<PromiseRejectedResult>[];
 }
 
 export interface ContentMutationsType {

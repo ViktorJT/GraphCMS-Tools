@@ -39,7 +39,7 @@ export async function importData(
     },
   }
 ) {
-  const schemaSpinner = ora({text: 'Exporting schema…', spinner: 'clock'}).start();
+  const metadataSpinner = ora({text: 'Creating config…', spinner: 'clock'}).start();
 
   const schema = await exportSchema(schemaQuery, {
     permanentAccessToken: environment.permanentAccessToken,
@@ -48,16 +48,16 @@ export async function importData(
     targetEnvironment: /\w+$/g.exec(environment.contentApi)![0],
   });
 
-  if (!schema) {
-    schemaSpinner.fail('Exporting schema failed');
-    throw Error('Something went wrong!');
-  } else {
-    schemaSpinner.succeed('Successfully exported schema');
-  }
-
   const metadata = generateMetadata(schema);
 
   setGlobalConfig(environment, options, metadata);
+
+  if (!schema) {
+    metadataSpinner.fail('Creating config failed');
+    throw Error('Something went wrong!');
+  } else {
+    metadataSpinner.succeed('Successfully created config');
+  }
 
   const contentMutations = generateContentMutations(data);
 
