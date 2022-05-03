@@ -1,19 +1,11 @@
 {
   "version": "0.0.1",
-  "packages": [
-    "packages/exporter",
-    "packages/importer",
-    "packages/publisher"
-  ],
+  "packages": ["packages/exporter", "packages/importer", "packages/publisher"],
   "npmClient": "npm",
   "command": {
     "publish": {
-      "ignoreChanges": [
-        "ignored-file",
-        "*.md"
-      ],
-      "message": "chore(release): publish",
-      "registry": "https://npm.pkg.github.com"
+      "ignoreChanges": ["ignored-file", "*.md"],
+      "message": "chore(release): publish"
     }
   }
 }
