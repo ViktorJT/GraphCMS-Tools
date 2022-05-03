@@ -5,19 +5,12 @@ import {writeFileSync} from 'fs';
 import 'dotenv/config';
 
 const megaTest = async () => {
-  const content = await exportData(
-    {
-      contentApi: process.env.GRAPHCMS_CONTENT_API,
-      projectId: process.env.GRAPHCMS_PROJECT_ID,
-      permanentAccessToken: process.env.GRAPHCMS_PERMANENT_ACCESS_TOKEN,
-    }
-    // {
-    //   search: {
-    //     models: ['YouTubeLink'],
-    //   },
-    // }
-  );
-  // writeFileSync('./exportData.json', JSON.stringify(content, null, 2));
+  const content = await exportData({
+    contentApi: process.env.GRAPHCMS_CONTENT_API,
+    projectId: process.env.GRAPHCMS_PROJECT_ID,
+    permanentAccessToken: process.env.GRAPHCMS_PERMANENT_ACCESS_TOKEN,
+  });
+  writeFileSync('./exportData.json', JSON.stringify(content, null, 2));
 
   // const [imported, rejected] = await importData(content.slice(0, 10), {
   //   contentApi: process.env.GRAPHCMS_CONTENT_API,
