@@ -6,10 +6,10 @@
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.js",
   "scripts": {
-    "build": "build:cjs && build:esm && build:types",
-    "build:cjs": "tsc -p ../../config/tsconfig.cjs.json",
-    "build:esm": "tsc -p ../../config/tsconfig.esm.json",
-    "build:types": "tsc -p ../../config/tsconfig.types.json"
+    "build": "npm run build:cjs && npm run build:esm && npm run build:types",
+    "build:cjs": "tsc -p config/tsconfig.cjs.json",
+    "build:esm": "tsc -p config/tsconfig.esm.json",
+    "build:types": "tsc -p config/tsconfig.types.json"
   },
   "publishConfig": {
     "access": "public"

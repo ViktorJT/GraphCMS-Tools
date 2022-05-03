@@ -14,6 +14,10 @@ export async function exportData(
     concurrency: 1,
     targetContentStage: 'DRAFT', // TODO Add default to draft instead
     targetLocales: [], // TODO
+    search: {
+      models: [],
+      fields: [],
+    },
     include: {
       includeSystemModels: true,
       includeSystemFields: true, // Id fields are always exported

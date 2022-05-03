@@ -8,6 +8,10 @@ export interface OptionsType {
     includeHiddenFields: boolean;
     includeApiOnlyFields: boolean;
   };
+  search: {
+    models: string[];
+    fields: string[];
+  };
   exclude: {
     model?: {
       [key: string]: boolean;

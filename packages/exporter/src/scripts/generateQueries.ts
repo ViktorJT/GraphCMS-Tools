@@ -4,9 +4,18 @@ import {ModelType, FieldType} from '../types/index.js';
 
 const triage = (apiId: string, isSystem?: boolean): boolean => {
   if (apiId === 'id') return true;
+
+  if (global.config.search.models.length || global.config.search.fields.length) {
+    if (global.config.search.models.includes[apiId]) return true;
+    if (global.config.search.fields.includes[apiId]) return true;
+    return false;
+  }
+
   if (global.config.exclude.field[apiId]) return false;
   if (global.config.exclude.model?.[apiId]) return false;
+
   if (global.config.include.includeSystemFields === false && isSystem) return false;
+
   return true;
 };
 
