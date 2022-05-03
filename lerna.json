@@ -1,6 +1,5 @@
 {
-<<<<<<< HEAD
-  "version": "0.0.9",
+  "version": "0.0.8-alpha.0",
   "packages": ["packages/*"],
   "npmClient": "npm",
   "command": {
@@ -10,11 +9,4 @@
       "registry": "https://npm.pkg.github.com"
     }
   }
-=======
-  "version": "0.0.8-alpha.0",
-  "packages": [
-    "packages/*"
-  ],
-  "npmClient": "npm"
->>>>>>> develop
 }
