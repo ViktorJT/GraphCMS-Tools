@@ -12,7 +12,7 @@ const triage = (apiId: string, isSystem?: boolean): boolean => {
   }
 
   if (global.config.exclude.field[apiId]) return false;
-  if (global.config.exclude.model?.[apiId]) return false;
+  if (global.config.exclude.model[apiId]) return false;
 
   if (global.config.include.includeSystemFields === false && isSystem) return false;
 

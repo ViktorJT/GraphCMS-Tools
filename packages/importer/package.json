@@ -1,11 +1,11 @@
 {
   "private": false,
   "name": "@graphcms-tools/importer",
-  "version": "0.0.2",
+  "version": "0.0.0",
   "description": "Import content to GraphCMS",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.js",
+  "main": "dist/cjs/main.js",
+  "module": "dist/esm/main.js",
+  "types": "dist/types/main.d.js",
   "scripts": {
     "build": "npm run build:cjs && npm run build:esm && npm run build:types",
     "build:cjs": "tsc -p config/tsconfig.cjs.json",
@@ -51,8 +51,8 @@
   "dependencies": {
     "graphql": "^16.3.0",
     "graphql-request": "^4.0.0",
-    "ora": "^6.1.0",
+    "ora": "5.4.1",
     "stringify-object": "^4.0.1"
   },
-  "gitHead": "0d71403b2628e12691e77933cf02a7c15512f53d"
+  "gitHead": "ad05e8cd1edd77b12f4c8d0062618d74ab8e2806"
 }

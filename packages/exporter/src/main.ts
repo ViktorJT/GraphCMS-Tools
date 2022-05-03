@@ -28,6 +28,7 @@ export async function exportData(
       field: {
         defaults: true, // ! Required
       },
+      model: {},
       subType: {
         JSON: true, // TODO
       },
