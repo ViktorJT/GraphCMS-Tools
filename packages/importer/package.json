@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "@graphcms-tools/importer",
-  "version": "0.0.11-alpha.0",
+  "version": "0.0.1",
   "description": "Import content to GraphCMS",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -54,5 +54,5 @@
     "ora": "^6.1.0",
     "stringify-object": "^4.0.1"
   },
-  "gitHead": "f3c9e8842fb566310d593a7ca0f81ed67146e420"
+  "gitHead": "0d71403b2628e12691e77933cf02a7c15512f53d"
 }
