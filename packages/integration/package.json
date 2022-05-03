@@ -1,6 +1,6 @@
 {
   "name": "integration",
-  "version": "0.0.9-alpha.0",
+  "version": "0.0.9",
   "description": "",
   "type": "module",
   "main": "index.js",
@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@graphcms-tools/exporter": "^0.0.9-alpha.0",
-    "@graphcms-tools/importer": "^0.0.9-alpha.0",
-    "@graphcms-tools/publisher": "^0.0.9-alpha.0",
+    "@graphcms-tools/exporter": "^0.0.9",
+    "@graphcms-tools/importer": "^0.0.9",
+    "@graphcms-tools/publisher": "^0.0.9",
     "dotenv": "^16.0.0"
   },
   "gitHead": "c34319292b3eddad6a15e2e551f2f72a3e53d9d8"

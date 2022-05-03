@@ -1,6 +1,6 @@
 {
   "name": "@graphcms-tools/publisher",
-  "version": "0.0.9-alpha.0",
+  "version": "0.0.9",
   "description": "Publish content to GraphCMS",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
