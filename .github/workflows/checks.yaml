@@ -1,32 +1,32 @@
-name: Checks
-on:
-  pull_request:
-    types: [opened, synchronize]
-jobs:
-  check:
-    runs-on: ubuntu-latest
+# name: Checks
+# on:
+#   pull_request:
+#     types: [opened, synchronize]
+# jobs:
+#   check:
+#     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
+#     strategy:
+#       matrix:
+#         node-version: [12.x, 14.x, 16.x]
 
-    steps:
-      - name: 'Checkout' # Download code from the repository
-        uses: actions/checkout@v2 # Public action
-        with:
-          fetch-depth: 0 # Checkout all branches and tags
+#     steps:
+#       - name: 'Checkout' # Download code from the repository
+#         uses: actions/checkout@v2 # Public action
+#         with:
+#           fetch-depth: 0 # Checkout all branches and tags
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+#       - name: Use Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: ${{ matrix.node-version }}
 
-      - name: 'Setup npm' # Add our registry to npm config
-        run: | # Custom action
-          npm set @xcanchal:registry=https://npm.pkg.github.com/xcanchal
-          npm set "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
+#       - name: 'Setup npm' # Add our registry to npm config
+#         run: | # Custom action
+#           npm set @xcanchal:registry=https://npm.pkg.github.com/xcanchal
+#           npm set "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Install dependencies
-        run: | # Install and link dependencies
-          npm ci
-          npx lerna bootstrap
+#       - name: Install dependencies
+#         run: | # Install and link dependencies
+#           npm ci
+#           npx lerna bootstrap
