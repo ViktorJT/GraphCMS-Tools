@@ -2,7 +2,7 @@
   "extends": "../../../config/tsconfig.types.json",
   "compilerOptions": {
     "outDir": "../dist/types" /* Redirect output structure to the directory. */,
-    "rootDir": "../" /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "rootDir": "../src" /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
   },
   "include": ["../src/**/*"]
 }
