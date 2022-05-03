@@ -1,10 +1,36 @@
 {
+  "name": "@graphcms-tools/importer",
+  "version": "0.0.8-alpha.0",
+  "description": "Import content to GraphCMS",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.js",
+  "scripts": {
+    "build": "npm run build:cjs && npm run build:esm && npm run build:types",
+    "build:cjs": "tsc -p config/tsconfig.cjs.json",
+    "build:esm": "tsc -p config/tsconfig.esm.json",
+    "build:types": "tsc -p config/tsconfig.types.json"
+  },
   "publishConfig": {
     "access": "public"
   },
-  "name": "@graphcms-tools/importer",
-  "version": "0.0.9",
-  "description": "Import content to GraphCMS",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "graphCMS",
+    "data",
+    "export",
+    "import",
+    "publish",
+    "typescript",
+    "npm",
+    "package",
+    "cjs",
+    "esm"
+  ],
+  "author": "Viktor Jensen-Torp",
+  "license": "MIT",
   "homepage": "https://github.com/ViktorJT/GraphCMS-Tools#graphcms-tools",
   "repository": {
     "type": "git",
@@ -14,7 +40,6 @@
     "url": "https://github.com/ViktorJT/GraphCMS-Tools/issues",
     "email": "v.jensentorp@gmail.com"
   },
-  "author": "Viktor Jensen-Torp",
   "contributors": [
     {
       "name": "Viktor Jensen-Torp",
@@ -22,25 +47,6 @@
       "url": "https://github.com/ViktorJT"
     }
   ],
-  "keywords": [
-    "graphCMS",
-    "data",
-    "export",
-    "import",
-    "publish"
-  ],
-  "exports": "./lib/main.js",
-  "engines": {
-    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
-  },
-  "files": [
-    "src/**/*"
-  ],
-  "type": "module",
-  "scripts": {
-    "tsc": "tsc"
-  },
-  "license": "MIT",
   "dependencies": {
     "graphql": "^16.3.0",
     "graphql-request": "^4.0.0",
