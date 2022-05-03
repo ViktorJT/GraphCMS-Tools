@@ -2,7 +2,6 @@
   "extends": "../tsconfig",
   "compilerOptions": {
     "declaration": true /* Generates corresponding '.d.ts' file. */,
-    "emitDeclarationOnly": true,
-    "outDir": "./dist/types" /* Redirect output structure to the directory. */
+    "emitDeclarationOnly": true
   }
 }
