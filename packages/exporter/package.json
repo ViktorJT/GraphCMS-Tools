@@ -1,6 +1,6 @@
 {
   "name": "@graphcms-tools/exporter",
-  "version": "0.0.7",
+  "version": "0.0.8-alpha.0",
   "description": "Export content from GraphCMS",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
