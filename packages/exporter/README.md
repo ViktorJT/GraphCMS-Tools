@@ -2,21 +2,19 @@
 
 This package is part of a [collection of tools](../../README.md) to work more effectively with data using [GraphCMS](https://graphcms.com/).
 
---
-
 ## Usage
 
 The `exportData` function supports both CommonJS and ESM modules, and takes two objects as arguments:
 
 1. ### Environment **Required**
 
-   _P.s. environment variables should never be committed._
+_P.s. environment variables should never be committed._
 
-   | property             | type   | where?                                   |
-   | -------------------- | ------ | ---------------------------------------- |
-   | projectId            | string | GraphCMS Settings > General > Project    |
-   | permanentAccessToken | string | GraphCMS Settings > General > API Access |
-   | contentApi           | string | GraphCMS Settings > General > API Access |
+| property             | type   | where?                                   |
+| -------------------- | ------ | ---------------------------------------- |
+| projectId            | string | GraphCMS Settings > General > Project    |
+| permanentAccessToken | string | GraphCMS Settings > General > API Access |
+| contentApi           | string | GraphCMS Settings > General > API Access |
 
 2. ### Options
 
@@ -37,9 +35,7 @@ The `exportData` function supports both CommonJS and ESM modules, and takes two 
 | ⎿           | type                 |          |         | Controls excluding fields by type                   |
 | ⎿           | subType              |          |         | Controls excluding fields by sub-type               |
 
---
-
-## See also
+### See also
 
 ### [Importer]([../packages/importer/readme.md])
 

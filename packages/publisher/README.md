@@ -28,7 +28,7 @@ _P.s. environment variables should never be committed._
 | ⎿           | model        |        |         | Controls excluding content models by name       |
 | ⎿           | field        |        |         | Controls excluding fields by name               |
 
-## See also
+### See also
 
 ### [Exporter]([../packages/exporter/readme.md])
 
