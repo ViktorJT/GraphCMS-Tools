@@ -8,7 +8,7 @@ The `publishData` function supports both CommonJS and ESM modules, and takes thr
 
 1. ### Data **Required**
 
-See the output of the [importer package](../../packages/importer/readme.md) for reference.
+See the output of the [importer package](../importer/readme.md) for reference.
 
 2. ### Environment **Required**
 
@@ -30,10 +30,10 @@ _P.s. environment variables should never be committed._
 
 ### See also
 
-### [Exporter](../../packages/exporter/readme.md)
+### [Exporter](../exporter/readme.md)
 
 Export data as JSON in bulk, with controls to filter the output
 
-### [Importer](../../packages/importer/readme.md)
+### [Importer](../importer/readme.md)
 
 [Upsert](<https://en.wiktionary.org/wiki/upsert#:~:text=upsert%20(plural%20upserts),updates%20them%20if%20they%20do.>) JSON data in bulk, with controls to filter the input
