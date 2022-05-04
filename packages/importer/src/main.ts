@@ -26,20 +26,9 @@ import type {DataType, EnvironmentType, OptionsType} from './types/index.js';
 export async function importData(
   data: DataType[],
   environment: EnvironmentType,
-  options: OptionsType = {
-    concurrency: 3,
-    exclude: {
-      model: {
-        User: true, // ! Required
-      },
-      field: {
-        createdBy: true, // ! Required
-        updatedBy: true, // ! Required
-      },
-    },
-  }
+  options: OptionsType
 ) {
-  const metadataSpinner = ora({text: 'Creating config…', spinner: 'clock'}).start();
+  const metadataSpinner = ora({text: '\nCreating config…', spinner: 'clock'}).start();
 
   const schema = await exportSchema(schemaQuery, {
     permanentAccessToken: environment.permanentAccessToken,
@@ -53,10 +42,10 @@ export async function importData(
   setGlobalConfig(environment, options, metadata);
 
   if (!schema) {
-    metadataSpinner.fail('Creating config failed');
+    metadataSpinner.fail('Creating importConfig failed');
     throw Error('Something went wrong!');
   } else {
-    metadataSpinner.succeed('Successfully created config');
+    metadataSpinner.succeed('Successfully created importConfig');
   }
 
   const contentMutations = generateContentMutations(data);
@@ -66,9 +55,9 @@ export async function importData(
   const contentResults = await processRequests(importSpinner, contentMutations);
 
   if (contentResults.fulfilled.length === 0) {
-    importSpinner.fail('Imported content failed');
+    importSpinner.fail('Imported content failed\n');
   } else {
-    importSpinner.succeed('Successfully imported content');
+    importSpinner.succeed('Successfully imported content\n');
   }
 
   return [contentResults.fulfilled, contentResults.rejected];

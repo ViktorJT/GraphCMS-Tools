@@ -9,15 +9,17 @@ const processRequests = async (spinner: Ora, operations: string[]): Promise<Requ
     const results: RequestResultsType = {fulfilled: [], rejected: []};
 
     while (allOperations.length > 0) {
-      const batchedClients = allOperations.slice(0, global.config.concurrency).map((request) => {
-        const client = new GraphQLClient(global.config.contentApi, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${global.config.permanentAccessToken}`,
-          },
+      const batchedClients = allOperations
+        .slice(0, global.importConfig.concurrency)
+        .map((request) => {
+          const client = new GraphQLClient(global.importConfig.contentApi, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${global.importConfig.permanentAccessToken}`,
+            },
+          });
+          return client.request(request);
         });
-        return client.request(request);
-      });
 
       const result = await Promise.allSettled(batchedClients);
 
@@ -44,7 +46,7 @@ const processRequests = async (spinner: Ora, operations: string[]): Promise<Requ
         spinner.text = `Importing content – ${percentageDone}%`;
       }
 
-      allOperations = allOperations.slice(global.config.concurrency);
+      allOperations = allOperations.slice(global.importConfig.concurrency);
     }
 
     return results;

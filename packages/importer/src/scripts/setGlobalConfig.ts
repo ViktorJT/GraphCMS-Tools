@@ -13,14 +13,24 @@ export const setGlobalConfig = (
     );
   }
 
-  global.config = {
-    targetEnvironment: targetEnvironment[0],
+  global.importConfig = {
     ...environment,
     ...metadata,
-    ...options,
+    concurrency: options?.concurrency || 1,
+    exclude: {
+      model: {
+        User: true, // ! Required
+        ...options?.exclude?.model,
+      },
+      field: {
+        createdBy: true, // ! Required
+        updatedBy: true, // ! Required
+        ...options?.exclude?.field,
+      },
+    },
   };
 
-  Object.freeze(global.config);
+  Object.freeze(global.importConfig);
 };
 
 export default setGlobalConfig;

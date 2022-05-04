@@ -1,14 +1,20 @@
 /* eslint-disable no-var */
 import type {OptionsType, EnvironmentType} from './index.js';
 
-interface ExtendedEnvironmentType extends EnvironmentType {
-  targetEnvironment: string;
-}
-
 declare global {
-  type ConfigType = ExtendedEnvironmentType & OptionsType;
+  interface PublishConfigType extends EnvironmentType, OptionsType {
+    target: {
+      environment: string;
+    };
+    concurrency: number;
+    exclude: {
+      model: {
+        [key: string]: boolean;
+      };
+    };
+  }
 
-  var config: ConfigType;
+  var publishConfig: PublishConfigType;
 }
 
 export {};

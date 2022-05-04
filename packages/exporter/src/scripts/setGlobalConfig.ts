@@ -1,6 +1,6 @@
-import type {PreferencesType, EnvironmentType} from '../types/index.js';
+import type {OptionsType, EnvironmentType} from '../types/index.js';
 
-export const setGlobalConfig = (environment: EnvironmentType, preferences: PreferencesType) => {
+export const setGlobalConfig = (environment: EnvironmentType, options: OptionsType) => {
   const targetEnvironment = /\w+$/g.exec(environment.contentApi);
 
   if (!targetEnvironment || !targetEnvironment[0]) {
@@ -9,52 +9,52 @@ export const setGlobalConfig = (environment: EnvironmentType, preferences: Prefe
     );
   }
 
-  global.config = {
+  global.exportConfig = {
     ...environment,
 
     mode: {
-      modelSearch: !!preferences?.search?.models?.length,
-      fieldSearch: !!preferences?.search?.fields?.length,
+      modelSearch: !!options?.search?.models?.length,
+      fieldSearch: !!options?.search?.fields?.length,
     },
 
-    concurrency: preferences?.concurrency || 1,
+    concurrency: options?.concurrency || 1,
     search: {
       models: [],
       fields: [],
-      ...preferences?.search,
+      ...options?.search,
     },
     target: {
       environment: targetEnvironment[0],
       contentStage: 'DRAFT',
       locales: [],
-      ...preferences?.target,
+      ...options?.target,
     },
     include: {
       includeSystemModels: true,
       includeSystemFields: true,
       includeHiddenFields: true,
       includeApiOnlyFields: true,
-      ...preferences?.include,
+      ...options?.include,
     },
     exclude: {
       model: {
-        ...preferences?.exclude?.model,
+        ...options?.exclude?.model,
       },
       field: {
         defaults: true,
-        ...preferences?.exclude?.field,
+        ...options?.exclude?.field,
       },
       type: {
-        ...preferences?.exclude?.type,
+        ...options?.exclude?.type,
       },
       subType: {
         JSON: true,
-        ...preferences?.exclude?.subType,
+        ...options?.exclude?.subType,
       },
     },
   };
 
-  Object.freeze(global.config);
+  Object.freeze(global.exportConfig);
 };
 
 export default setGlobalConfig;

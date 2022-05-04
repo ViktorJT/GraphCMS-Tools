@@ -14,27 +14,29 @@ const processRequests = async (
     const operationResults = [];
 
     while (allOperations.length > 0) {
-      const batchedClients = allOperations.slice(0, global.config.concurrency).map((request) => {
-        const client = new GraphQLClient(endpoint, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${global.config.permanentAccessToken}`,
-          },
+      const batchedClients = allOperations
+        .slice(0, global.exportConfig.concurrency)
+        .map((request) => {
+          const client = new GraphQLClient(endpoint, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${global.exportConfig.permanentAccessToken}`,
+            },
+          });
+          return client.request(request, variables);
         });
-        return client.request(request, variables);
-      });
 
       const result = await Promise.all(batchedClients);
 
       operationResults.push(...result);
 
-      allOperations = allOperations.slice(global.config.concurrency);
+      allOperations = allOperations.slice(global.exportConfig.concurrency);
 
       if (operations.length !== 1) {
         const percentageDone = Math.ceil(
           ((operations.length - allOperations.length) / operations.length) * 100
         );
-        spinner.text = `Exporting content – ${percentageDone}%\n`;
+        spinner.text = `Exporting content – ${percentageDone}%`;
       }
     }
 

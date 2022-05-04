@@ -2,27 +2,19 @@
 import type {Ora} from 'ora';
 import {GraphQLClient} from 'graphql-request';
 
-import type {
-  RequestResultsType,
-  ContentMutationsType,
-  RequestVariablesType,
-} from '../types/index.js';
+import type {RequestResultsType, ContentMutationsType} from '../types/index.js';
 
-const processRequests = async (
-  spinner: Ora,
-  operations: string[],
-  variables: RequestVariablesType
-): Promise<RequestResultsType> => {
+const processRequests = async (spinner: Ora, operations: string[]): Promise<RequestResultsType> => {
   try {
     let allOperations = [...operations];
     const results: RequestResultsType = {fulfilled: [], rejected: []};
 
     while (allOperations.length > 0) {
-      const batchedClients = allOperations.slice(0, variables.concurrency).map((request) => {
-        const client = new GraphQLClient(variables.contentApi, {
+      const batchedClients = allOperations.slice(0, publishConfig.concurrency).map((request) => {
+        const client = new GraphQLClient(publishConfig.contentApi, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${variables.permanentAccessToken}`,
+            Authorization: `Bearer ${publishConfig.permanentAccessToken}`,
           },
         });
         return client.request(request);
@@ -53,7 +45,7 @@ const processRequests = async (
         spinner.text = `Publishing content – ${percentageDone}%`;
       }
 
-      allOperations = allOperations.slice(variables.concurrency);
+      allOperations = allOperations.slice(publishConfig.concurrency);
     }
 
     return results;

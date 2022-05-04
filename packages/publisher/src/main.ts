@@ -7,37 +7,33 @@ import ora from 'ora';
 
 import generatePublishMutations from './scripts/generatePublishMutations.js';
 import processRequests from './scripts/processRequests.js';
+import setGlobalConfig from './scripts/setGlobalConfig.js';
 
 import type {DataType, EnvironmentType, OptionsType} from './types/index.js';
 
 export async function publishData(
   data: DataType[],
   environment: EnvironmentType,
-  options: OptionsType = {
-    concurrency: 3,
-  }
+  options: OptionsType
 ) {
+  setGlobalConfig(environment, options);
+
   const publishMutations = generatePublishMutations(data);
 
   if (!publishMutations || publishMutations.length === 0) throw Error('Something went wrong');
 
-  const spinner = ora({text: 'Publishing content – 0%', spinner: 'clock'}).start();
+  const spinner = ora({text: '\nPublishing content – 0%', spinner: 'clock'}).start();
 
-  const publishResults = await processRequests(spinner, publishMutations, {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    targetEnvironment: /\w+$/g.exec(environment.contentApi)![0],
-    ...environment,
-    ...options,
-  });
+  const publishResults = await processRequests(spinner, publishMutations);
 
   if (publishResults.fulfilled.length === 0) {
-    spinner.fail('Publishing content failed');
+    spinner.fail('Publishing content failed\n');
   } else if (publishResults.fulfilled.length && publishResults.rejected.length) {
     spinner.warn(
-      `Partially published content, ${publishResults.rejected.length} documents rejected`
+      `Partially published content, ${publishResults.rejected.length} documents rejected\n`
     );
   } else {
-    spinner.succeed('Successfully published content');
+    spinner.succeed('Successfully published content\n');
   }
 
   return [publishResults.fulfilled, publishResults.rejected];

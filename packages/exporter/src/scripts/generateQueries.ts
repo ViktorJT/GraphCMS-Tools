@@ -5,18 +5,18 @@ import {ModelType, FieldType} from '../types/index.js';
 const triage = (mode: 'field' | 'model', apiId: string, isSystem?: boolean): boolean => {
   if (apiId === 'id') return true;
 
-  if (mode === 'model' && global.config.mode.modelSearch) {
-    return global.config.search.models.includes(apiId);
+  if (mode === 'model' && global.exportConfig.mode.modelSearch) {
+    return global.exportConfig.search.models.includes(apiId);
   }
 
-  if (mode === 'field' && global.config.mode.fieldSearch) {
-    return global.config.search.fields.includes(apiId);
+  if (mode === 'field' && global.exportConfig.mode.fieldSearch) {
+    return global.exportConfig.search.fields.includes(apiId);
   }
 
-  if (global.config.exclude.field[apiId]) return false;
-  if (global.config.exclude.model[apiId]) return false;
+  if (global.exportConfig.exclude.field[apiId]) return false;
+  if (global.exportConfig.exclude.model[apiId]) return false;
 
-  if (global.config.include.includeSystemFields === false && isSystem) return false;
+  if (global.exportConfig.include.includeSystemFields === false && isSystem) return false;
 
   return true;
 };
@@ -36,7 +36,7 @@ const assertLocalization = (
     : [fields, null];
 
 const assertFieldSubType = (apiId: string, type?: string) => {
-  if (type && global.config.exclude.subType[type]) return ' ';
+  if (type && global.exportConfig.exclude.subType[type]) return ' ';
   switch (type) {
     case 'RICHTEXT':
       return `${apiId} { raw }`;
@@ -51,7 +51,7 @@ const assertFieldSubType = (apiId: string, type?: string) => {
 
 // TODO replace this with stringifyObject? I'm only using it to set the correct quotes I think.
 const assertFieldType = ({apiId, __typename, ...field}: FieldType) => {
-  if (global.config.exclude.type?.[__typename]) return ' ';
+  if (global.exportConfig.exclude.type?.[__typename]) return ' ';
   switch (__typename) {
     case 'SimpleField':
       return assertFieldSubType(apiId, field.type);
@@ -66,7 +66,7 @@ const assertFieldType = ({apiId, __typename, ...field}: FieldType) => {
               field.union !== undefined &&
               field.union.memberTypes
                 .map((relatedModel) => `... on ${relatedModel.model.apiId} { id, __typename }`)
-                .join('\n')
+                .join('')
             }
           }`;
     default:
@@ -99,28 +99,28 @@ const generateQueries = (schema: ModelType[]) => {
         modelIsLocalized
       );
 
-      // TODO: add config to pretty print json or not (remove newlines & shit)?
+      // TODO: add exportConfig to pretty print json or not (remove newlines & shit)?
 
       return triage('model', modelApiId)
         ? [
             ...parsedQueries,
             `query ${modelApiId} {
           ${modelApiId}: ${lowerCaseFirstLetter(modelApiIdPlural)}(
-              stage: ${global.config.target.contentStage}
+              stage: ${global.exportConfig.target.contentStage}
               first: 1000
             ) {
             ${
               modelIsLocalized
                 ? `localizations(includeCurrent: true ${
-                    global.config.target.locales.length
-                      ? `locales: [${global.config.target.locales}]`
+                    global.exportConfig.target.locales.length
+                      ? `locales: [${global.exportConfig.target.locales}]`
                       : ''
                   }) {
                   locale
                   ${localizedFields !== null && parseFields(localizedFields)}
                 }
-                ${nonLocalizedFields !== null && parseFields(nonLocalizedFields)}\n}`
-                : `${nonLocalizedFields !== null && parseFields(nonLocalizedFields)}\n}`
+                ${nonLocalizedFields !== null && parseFields(nonLocalizedFields)}}`
+                : `${nonLocalizedFields !== null && parseFields(nonLocalizedFields)}}`
             }
           }
         `,

@@ -24,16 +24,12 @@ export interface EnvironmentType {
 }
 
 export interface OptionsType {
-  concurrency: number;
-  publish?: {
-    targetStages: string[];
-    newLocales: string[] | [];
-  };
-  exclude: {
-    model: {
+  concurrency?: number;
+  exclude?: {
+    model?: {
       [key: string]: boolean;
     };
-    field: {
+    field?: {
       [key: string]: boolean;
     };
   };

@@ -24,5 +24,10 @@ export interface EnvironmentType {
 }
 
 export interface OptionsType {
-  concurrency: number;
+  concurrency?: number;
+  exclude?: {
+    model?: {
+      [key: string]: boolean;
+    };
+  };
 }

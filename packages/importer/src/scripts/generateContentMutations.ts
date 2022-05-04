@@ -27,7 +27,9 @@ mutation upsert${name} {
             ? `localizations: {
               create: [
                 ${localizedFields
-                  .filter(({locale}: {locale: string}) => locale !== global.config.defaultLocale)
+                  .filter(
+                    ({locale}: {locale: string}) => locale !== global.importConfig.defaultLocale
+                  )
                   .map(
                     ({locale, fields}: {locale: string; fields: any}) => `
                   { locale: ${locale} data: { ${fields.join('\n')} } }
@@ -93,7 +95,7 @@ mutation upsert${name} {
 const parseFields = (fields: FieldsType, modelEnumerations: MetadataModelEnumerationType) =>
   Object.entries(fields)
     .filter(([key, value]: [key: string, value: any]): boolean => {
-      if (global.config.exclude.field[key]) return false;
+      if (global.importConfig.exclude.field[key]) return false;
       if (typeof value !== 'boolean' && !value) return false;
       if (Array.isArray(value) && !value.length) return false;
       return true;
@@ -156,7 +158,7 @@ const triageFields = (
   const filteredNonLocalizedFields = parseFields(nonLocalizedFields, modelEnumerations);
 
   const defaultLocaleFields = filteredLocales?.filter(
-    ({locale}: {locale: string}) => locale === global.config.defaultLocale
+    ({locale}: {locale: string}) => locale === global.importConfig.defaultLocale
   )[0];
 
   if (defaultLocaleFields?.length) console.log('test', defaultLocaleFields);
@@ -191,9 +193,9 @@ const generateContentMutations = (data: DataType[]): string[] => {
   const contentMutations = data.reduce((parsedModels: string[], model) => {
     const [name, instances] = Object.entries(model)[0];
 
-    if (global.config.exclude.model[name]) return parsedModels;
+    if (global.importConfig.exclude.model[name]) return parsedModels;
 
-    const modelEnumerations = global.config.enumerations[name];
+    const modelEnumerations = global.importConfig.enumerations[name];
 
     const instanceMutation = instances.reduce((parsedInstances: string[], instance) => {
       const parsedInstance = parseInstance(name, instance, modelEnumerations);

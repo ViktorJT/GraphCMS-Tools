@@ -1,14 +1,23 @@
 /* eslint-disable no-var */
 import type {OptionsType, EnvironmentType, MetadataType} from './index.js';
 
-interface ExtendedEnvironmentType extends EnvironmentType {
-  targetEnvironment: string;
-}
-
 declare global {
-  type ConfigType = ExtendedEnvironmentType & OptionsType & MetadataType;
+  interface ImportConfigType extends EnvironmentType, OptionsType, MetadataType {
+    concurrency: number;
+    exclude: {
+      model: {
+        User: true;
+        [key: string]: boolean;
+      };
+      field: {
+        createdBy: true;
+        updatedBy: true;
+        [key: string]: boolean;
+      };
+    };
+  }
 
-  var config: ConfigType;
+  var importConfig: ImportConfigType;
 }
 
 export {};

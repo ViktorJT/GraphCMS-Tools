@@ -1,7 +1,7 @@
 /* eslint-disable no-var */
-import type {EnvironmentType, PreferencesType} from './main.js';
+import type {EnvironmentType, OptionsType} from './main.js';
 
-export interface ConfigType extends EnvironmentType, PreferencesType {
+export interface ExportConfigType extends EnvironmentType, OptionsType {
   concurrency: number;
   mode: {
     modelSearch: boolean;
@@ -27,7 +27,7 @@ export interface ConfigType extends EnvironmentType, PreferencesType {
       [key: string]: boolean;
     };
     field: {
-      defaults: boolean;
+      defaults: true;
       [key: string]: boolean;
     };
     type: {
@@ -40,7 +40,7 @@ export interface ConfigType extends EnvironmentType, PreferencesType {
 }
 
 declare global {
-  var config: ConfigType;
+  var exportConfig: ExportConfigType;
 }
 
 export {};

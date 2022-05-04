@@ -5,6 +5,8 @@ export const generatePublishMutations = (contentResults: DataType[]): string[] =
   const publishMetadata = contentResults.reduce((parsedDocuments, document) => {
     const {id, __typename, documentInStages} = Object.values(document)[0];
 
+    if (publishConfig.exclude.model[__typename]) return parsedDocuments;
+
     const stages = documentInStages.reduce(
       (parsedStages, {stage, localizations}) => ({
         [id]: {

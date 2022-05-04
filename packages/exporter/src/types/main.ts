@@ -1,4 +1,4 @@
-export interface PreferencesType {
+export interface OptionsType {
   concurrency?: number;
   target?: {
     contentStage?: string;
