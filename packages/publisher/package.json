@@ -1,7 +1,6 @@
 {
   "private": false,
   "name": "@graphcms-tools/publisher",
-  "version": "0.1.7",
   "description": "Publish content to GraphCMS",
   "main": "dist/cjs/main.js",
   "module": "dist/esm/main.js",
