@@ -1,13 +1,44 @@
 /* eslint-disable no-var */
-import type {OptionsType, EnvironmentType} from './main.js';
+import type {EnvironmentType, PreferencesType} from './main.js';
 
-interface ExtendedEnvironmentType extends EnvironmentType {
-  targetEnvironment: string;
+export interface ConfigType extends EnvironmentType, PreferencesType {
+  concurrency: number;
+  mode: {
+    isSearching: boolean;
+  };
+  target: {
+    environment: string;
+    contentStage: string;
+    locales: string[];
+  };
+  include: {
+    includeSystemModels: boolean;
+    includeSystemFields: boolean;
+    includeHiddenFields: boolean;
+    includeApiOnlyFields: boolean;
+  };
+  search: {
+    models: string[];
+    fields: string[];
+  };
+  exclude: {
+    model: {
+      [key: string]: boolean;
+    };
+    field: {
+      defaults: boolean;
+      [key: string]: boolean;
+    };
+    type: {
+      [key: string]: boolean;
+    };
+    subType: {
+      [key: string]: boolean;
+    };
+  };
 }
 
 declare global {
-  type ConfigType = OptionsType & ExtendedEnvironmentType;
-
   var config: ConfigType;
 }
 

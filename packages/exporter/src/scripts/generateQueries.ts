@@ -5,7 +5,7 @@ import {ModelType, FieldType} from '../types/index.js';
 const triage = (apiId: string, isSystem?: boolean): boolean => {
   if (apiId === 'id') return true;
 
-  if (global.config.search.models.length || global.config.search.fields.length) {
+  if (global.config.mode.isSearching) {
     if (global.config.search.models.includes[apiId]) return true;
     if (global.config.search.fields.includes[apiId]) return true;
     return false;
@@ -104,14 +104,14 @@ const generateQueries = (schema: ModelType[]) => {
             ...parsedQueries,
             `query ${modelApiId} {
           ${modelApiId}: ${lowerCaseFirstLetter(modelApiIdPlural)}(
-              stage: ${global.config.targetContentStage}
+              stage: ${global.config.target.contentStage}
               first: 1000
             ) {
             ${
               modelIsLocalized
                 ? `localizations(includeCurrent: true ${
-                    global.config.targetLocales.length
-                      ? `locales: [${global.config.targetLocales}]`
+                    global.config.target.locales.length
+                      ? `locales: [${global.config.target.locales}]`
                       : ''
                   }) {
                   locale

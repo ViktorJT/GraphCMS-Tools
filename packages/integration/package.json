@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@graphcms-tools/exporter": "^0.0.0",
-    "@graphcms-tools/importer": "^0.0.0",
-    "@graphcms-tools/publisher": "^0.0.0",
+    "@graphcms-tools/exporter": "^0.1.1",
+    "@graphcms-tools/importer": "^0.1.1",
+    "@graphcms-tools/publisher": "^0.1.1",
     "dotenv": "^16.0.0"
   },
   "gitHead": "f3c9e8842fb566310d593a7ca0f81ed67146e420"

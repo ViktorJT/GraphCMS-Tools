@@ -1,29 +1,30 @@
-export interface OptionsType {
-  concurrency: number;
-  targetContentStage: string;
-  targetLocales: string[];
-  include: {
-    includeSystemModels: boolean;
-    includeSystemFields: boolean;
-    includeHiddenFields: boolean;
-    includeApiOnlyFields: boolean;
+export interface PreferencesType {
+  concurrency?: number;
+  target?: {
+    contentStage?: string;
+    locales?: string[];
   };
-  search: {
-    models: string[];
-    fields: string[];
+  include?: {
+    includeSystemModels?: boolean;
+    includeSystemFields?: boolean;
+    includeHiddenFields?: boolean;
+    includeApiOnlyFields?: boolean;
   };
-  exclude: {
+  search?: {
+    models?: string[];
+    fields?: string[];
+  };
+  exclude?: {
     model?: {
       [key: string]: boolean;
     };
-    field: {
-      defaults: boolean;
+    field?: {
       [key: string]: boolean;
     };
     type?: {
       [key: string]: boolean;
     };
-    subType: {
+    subType?: {
       [key: string]: boolean;
     };
   };

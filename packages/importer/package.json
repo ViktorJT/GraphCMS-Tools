@@ -52,7 +52,7 @@
     "graphql": "^16.3.0",
     "graphql-request": "^4.0.0",
     "ora": "5.4.1",
-    "stringify-object": "^4.0.1"
+    "stringify-object": "3.3.0"
   },
   "gitHead": "877059cde6795c37200d445b05c286600a920e7f"
 }
