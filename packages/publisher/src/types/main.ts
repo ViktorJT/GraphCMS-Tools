@@ -20,7 +20,6 @@ export interface DataType {
 export interface EnvironmentType {
   permanentAccessToken: string;
   contentApi: string;
-  projectId: string;
 }
 
 export interface OptionsType {

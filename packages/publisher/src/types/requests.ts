@@ -18,8 +18,6 @@ export interface DocumentInStagesType {
 
 export interface RequestVariablesType {
   permanentAccessToken: string;
-  projectId: string;
-  targetEnvironment: string;
   contentApi: string;
   concurrency: number;
 }

@@ -3,22 +3,12 @@
   "npmClient": "npm",
   "command": {
     "publish": {
-      "ignoreChanges": [
-        "ignored-file",
-        "*.md"
-      ],
       "message": "chore(release): publish"
     },
     "bootstrap": {
       "ignore": "component-*",
-      "npmClientArgs": [
-        "--no-package-lock"
-      ]
+      "npmClientArgs": ["--no-package-lock"]
     }
   },
-  "packages": [
-    "packages/exporter",
-    "packages/importer",
-    "packages/publisher"
-  ]
+  "packages": ["packages/exporter", "packages/importer", "packages/publisher"]
 }
