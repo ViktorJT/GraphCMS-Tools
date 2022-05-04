@@ -16,7 +16,7 @@ export const setGlobalConfig = (
   global.importConfig = {
     ...environment,
     ...metadata,
-    concurrency: options?.concurrency || 1,
+    concurrency: options?.concurrency || 3,
     exclude: {
       model: {
         User: true, // ! Required

@@ -3,7 +3,7 @@ import type {OptionsType, EnvironmentType} from '../types/index.js';
 export const setGlobalConfig = (environment: EnvironmentType, options: OptionsType) => {
   global.publishConfig = {
     ...environment,
-    concurrency: options?.concurrency || 1,
+    concurrency: options?.concurrency || 3,
     exclude: {
       model: {
         ...options?.exclude?.model,

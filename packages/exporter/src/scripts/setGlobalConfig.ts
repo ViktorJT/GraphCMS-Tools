@@ -17,7 +17,7 @@ export const setGlobalConfig = (environment: EnvironmentType, options: OptionsTy
       fieldSearch: !!options?.search?.fields?.length,
     },
 
-    concurrency: options?.concurrency || 1,
+    concurrency: options?.concurrency || 3,
     search: {
       models: [],
       fields: [],
