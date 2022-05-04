@@ -47,7 +47,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "lerna": "^4.0.0",
     "lint-staged": "^12.3.8",
-    "typescript": "^4.7.0-dev.20220408"
+    "typescript": "^4.7.0-dev.20220408",
+    "husky": "^7.0.4"
   },
   "dependencies": {
     "@graphcms-tools/exporter": "file:packages/exporter",
