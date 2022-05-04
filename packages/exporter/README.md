@@ -20,7 +20,7 @@ The `exportData` function supports both CommonJS and ESM modules, and takes two 
 
 2. ### Options
 
-| property    | sub-property         | type     | default |
+| property    | sub-property         | type     | default |                                                     |
 | ----------- | -------------------- | -------- | ------- | --------------------------------------------------- |
 | concurrency |                      | number   | 1       | Controls how many requests to run in each batch     |
 | target      |                      | object   |         |                                                     |
