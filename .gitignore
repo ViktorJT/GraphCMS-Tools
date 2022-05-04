@@ -5,3 +5,4 @@ npm-debug.log
 packages/*/lib
 .env
 .DS_Store
+.npmrc
