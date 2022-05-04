@@ -26,14 +26,35 @@ _P.s. environment variables should never be committed._
 | concurrency |              | number | 1       | Controls how many requests to run in each batch |
 | exclude     |              | object |         |                                                 |
 | ⎿           | model        |        |         | Controls excluding content models by name       |
-| ⎿           | field        |        |         | Controls excluding fields by name               |
 
-### See also
+### Example
 
-### [Exporter](../exporter/readme.md)
+```
+const environment = {
+  contentApi: "https://api-eu-central-1-saeco.graphcms.com/v2/<id>/<environment>",
+  projectId: "123456789",
+  permanentAccessToken: "abc",
+}
+
+const options = {
+  concurrency: 3;
+  exclude: {
+    model: {
+      "ModelName#1": true;
+    };
+  };
+}
+
+const [importedData, rejectedData] = await importData(environment, options);
+
+```
+
+#### See also
+
+#### [Exporter](../exporter/readme.md)
 
 Export data as JSON in bulk, with controls to filter the output
 
-### [Importer](../importer/readme.md)
+#### [Importer](../importer/readme.md)
 
 [Upsert](<https://en.wiktionary.org/wiki/upsert#:~:text=upsert%20(plural%20upserts),updates%20them%20if%20they%20do.>) JSON data in bulk, with controls to filter the input

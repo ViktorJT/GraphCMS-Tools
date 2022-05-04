@@ -11,14 +11,14 @@ Packages are designed to be able to be chained into powerful workflows, as the o
     - Import ([upsert](<https://en.wiktionary.org/wiki/upsert#:~:text=upsert%20(plural%20upserts),updates%20them%20if%20they%20do.>)) the updated content
     - Publish the updated content to selected content stages
 
-### [Exporter](packages/exporter/readme.md)
+#### [Exporter](packages/exporter/readme.md)
 
 Export data as JSON in bulk, with controls to filter the output
 
-### [Importer](packages/importer/readme.md)
+#### [Importer](packages/importer/readme.md)
 
 [Upsert](<https://en.wiktionary.org/wiki/upsert#:~:text=upsert%20(plural%20upserts),updates%20them%20if%20they%20do.>) JSON data in bulk, with controls to filter the input
 
-### [Publisher](packages/publisher/readme.md)
+#### [Publisher](packages/publisher/readme.md)
 
 Publish JSON data in bulk, with controls to filter the input

@@ -35,12 +35,57 @@ _P.s. environment variables should never be committed._
 | ⎿           | type                 |          |         | Controls excluding fields by type                   |
 | ⎿           | subType              |          |         | Controls excluding fields by sub-type               |
 
-### See also
+### Example
 
-### [Importer](../importer/readme.md)
+```
+const environment = {
+  contentApi: "https://api-eu-central-1-saeco.graphcms.com/v2/<id>/<environment>",
+  projectId: "123456789",
+  permanentAccessToken: "abc",
+}
+
+const options = {
+  concurrency: 3;
+  target: {
+    contentStage: 'DRAFT';
+    locales: ['en-US', 'de-DE'];
+  };
+  include: {
+    includeSystemModels: true;
+    includeSystemFields: true;
+    includeHiddenFields: true;
+    includeApiOnlyFields: true;
+  };
+  search: {
+    models: ['ModelName#1', 'ModelName#2'];
+    fields: ['FieldName#1', 'FieldName#2'];
+  };
+  exclude: {
+    model: {
+      "ModelName#2": true;
+    };
+    field: {
+      "ModelName#2": true;
+    };
+    type: {
+      "SimpleField": true;
+    };
+    subType: {
+      JSON: true;
+    };
+  };
+}
+
+const data = await exportData(environment, options);
+
+```
+
+#### See also
+
+#### [Importer](../importer/readme.md)
 
 [Upsert](<https://en.wiktionary.org/wiki/upsert#:~:text=upsert%20(plural%20upserts),updates%20them%20if%20they%20do.>) JSON data in bulk, with controls to filter the input
 
-### [Publisher](../publisher/readme.md)
+#### [Publisher](../publisher/readme.md)
 
 Publish JSON data in bulk, with controls to filter the input
