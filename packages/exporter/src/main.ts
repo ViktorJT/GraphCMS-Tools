@@ -11,7 +11,7 @@ import schemaQuery from './queries/schemaQuery.js';
 export async function exportData(environment: EnvironmentType, options: OptionsType) {
   setGlobalConfig(environment, options);
 
-  const schemaSpinner = ora({text: '\nExporting schema…', spinner: 'clock'}).start();
+  const schemaSpinner = ora({text: 'Exporting schema…', spinner: 'clock'}).start();
 
   const schemaQueryResults = await processRequests(
     schemaSpinner,
@@ -43,10 +43,10 @@ export async function exportData(environment: EnvironmentType, options: OptionsT
   const results = await processRequests(exportSpinner, queries, global.exportConfig.contentApi);
 
   if (results.length === 0) {
-    exportSpinner.fail('Exporting content failed\n');
+    exportSpinner.fail('Exporting content failed');
     throw Error('Something went wrong!');
   } else {
-    exportSpinner.succeed('Successfully exported content\n');
+    exportSpinner.succeed('Successfully exported content');
     return results;
   }
 }

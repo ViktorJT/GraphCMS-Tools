@@ -28,7 +28,7 @@ export async function importData(
   environment: EnvironmentType,
   options: OptionsType
 ) {
-  const metadataSpinner = ora({text: '\nCreating config…', spinner: 'clock'}).start();
+  const metadataSpinner = ora({text: 'Creating config…', spinner: 'clock'}).start();
 
   const schema = await exportSchema(schemaQuery, {
     permanentAccessToken: environment.permanentAccessToken,
@@ -55,9 +55,9 @@ export async function importData(
   const contentResults = await processRequests(importSpinner, contentMutations);
 
   if (contentResults.fulfilled.length === 0) {
-    importSpinner.fail('Imported content failed\n');
+    importSpinner.fail('Imported content failed');
   } else {
-    importSpinner.succeed('Successfully imported content\n');
+    importSpinner.succeed('Successfully imported content');
   }
 
   return [contentResults.fulfilled, contentResults.rejected];

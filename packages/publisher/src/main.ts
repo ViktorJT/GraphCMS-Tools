@@ -22,18 +22,18 @@ export async function publishData(
 
   if (!publishMutations || publishMutations.length === 0) throw Error('Something went wrong');
 
-  const spinner = ora({text: '\nPublishing content – 0%', spinner: 'clock'}).start();
+  const spinner = ora({text: 'Publishing content – 0%', spinner: 'clock'}).start();
 
   const publishResults = await processRequests(spinner, publishMutations);
 
   if (publishResults.fulfilled.length === 0) {
-    spinner.fail('Publishing content failed\n');
+    spinner.fail('Publishing content failed');
   } else if (publishResults.fulfilled.length && publishResults.rejected.length) {
     spinner.warn(
-      `Partially published content, ${publishResults.rejected.length} documents rejected\n`
+      `Partially published content, ${publishResults.rejected.length} documents rejected`
     );
   } else {
-    spinner.succeed('Successfully published content\n');
+    spinner.succeed('Successfully published content');
   }
 
   return [publishResults.fulfilled, publishResults.rejected];
