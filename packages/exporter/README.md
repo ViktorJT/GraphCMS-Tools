@@ -1,6 +1,6 @@
 # Exporter
 
-This package is part of a [collection of tools](../../README.md) to work more effectively with data using [GraphCMS](https://graphcms.com/).
+This package is part of a [collection of tools](../../../README.md) to work more effectively with data using [GraphCMS](https://graphcms.com/).
 
 ## Usage
 
@@ -37,10 +37,10 @@ _P.s. environment variables should never be committed._
 
 ### See also
 
-### [Importer]([../packages/importer/readme.md])
+### [Importer]([../../packages/importer/readme.md])
 
 [Upsert](<https://en.wiktionary.org/wiki/upsert#:~:text=upsert%20(plural%20upserts),updates%20them%20if%20they%20do.>) JSON data in bulk, with controls to filter the input
 
-### [Publisher]([../packages/publisher/readme.md])
+### [Publisher]([../../packages/publisher/readme.md])
 
 Publish JSON data in bulk, with controls to filter the input

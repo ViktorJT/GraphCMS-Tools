@@ -1,6 +1,6 @@
 # Importer
 
-This package is part of a [collection of tools](../../README.md) to work more effectively with data using [GraphCMS](https://graphcms.com/).
+This package is part of a [collection of tools](../../../README.md) to work more effectively with data using [GraphCMS](https://graphcms.com/).
 
 ## Usage
 
@@ -8,7 +8,7 @@ The `importData` function supports both CommonJS and ESM modules, and takes thre
 
 1. ### Data **Required**
 
-See the output of the [exporter package]([../packages/exporter/readme.md]) for reference.
+See the output of the [exporter package]([../../packages/exporter/readme.md]) for reference.
 
 2. ### Environment **Required**
 
@@ -31,10 +31,10 @@ _P.s. environment variables should never be committed._
 
 ### See also
 
-### [Exporter]([../packages/exporter/readme.md])
+### [Exporter]([../../packages/exporter/readme.md])
 
 Export data as JSON in bulk, with controls to filter the output
 
-### [Publisher]([../packages/publisher/readme.md])
+### [Publisher]([../../packages/publisher/readme.md])
 
 Publish JSON data in bulk, with controls to filter the input
