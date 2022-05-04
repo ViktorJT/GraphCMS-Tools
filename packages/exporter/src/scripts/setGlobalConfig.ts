@@ -9,15 +9,12 @@ export const setGlobalConfig = (environment: EnvironmentType, preferences: Prefe
     );
   }
 
-  const isSearching = !!(
-    preferences?.search?.models?.length || preferences?.search?.fields?.length
-  );
-
   global.config = {
     ...environment,
 
     mode: {
-      isSearching,
+      modelSearch: !!preferences?.search?.models?.length,
+      fieldSearch: !!preferences?.search?.fields?.length,
     },
 
     concurrency: preferences?.concurrency || 1,
@@ -41,22 +38,18 @@ export const setGlobalConfig = (environment: EnvironmentType, preferences: Prefe
     },
     exclude: {
       model: {
-        x: true,
-        ...preferences?.exclude.model,
+        ...preferences?.exclude?.model,
       },
       field: {
-        x: true,
         defaults: true,
-        ...preferences?.exclude.field,
+        ...preferences?.exclude?.field,
       },
       type: {
-        x: true,
-        ...preferences?.exclude.type,
+        ...preferences?.exclude?.type,
       },
       subType: {
-        x: true,
         JSON: true,
-        ...preferences?.exclude.subType,
+        ...preferences?.exclude?.subType,
       },
     },
   };

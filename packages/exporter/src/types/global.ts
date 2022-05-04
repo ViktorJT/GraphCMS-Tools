@@ -4,7 +4,8 @@ import type {EnvironmentType, PreferencesType} from './main.js';
 export interface ConfigType extends EnvironmentType, PreferencesType {
   concurrency: number;
   mode: {
-    isSearching: boolean;
+    modelSearch: boolean;
+    fieldSearch: boolean;
   };
   target: {
     environment: string;

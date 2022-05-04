@@ -34,7 +34,7 @@ const processRequests = async (
         const percentageDone = Math.ceil(
           ((operations.length - allOperations.length) / operations.length) * 100
         );
-        spinner.text = `Exporting content – ${percentageDone}%`;
+        spinner.text = `Exporting content – ${percentageDone}%\n`;
       }
     }
 

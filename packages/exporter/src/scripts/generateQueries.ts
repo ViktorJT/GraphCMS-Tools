@@ -2,13 +2,15 @@
 import lowerCaseFirstLetter from '../helpers/lowerCaseFirstLetter.js';
 import {ModelType, FieldType} from '../types/index.js';
 
-const triage = (apiId: string, isSystem?: boolean): boolean => {
+const triage = (mode: 'field' | 'model', apiId: string, isSystem?: boolean): boolean => {
   if (apiId === 'id') return true;
 
-  if (global.config.mode.isSearching) {
-    if (global.config.search.models.includes[apiId]) return true;
-    if (global.config.search.fields.includes[apiId]) return true;
-    return false;
+  if (mode === 'model' && global.config.mode.modelSearch) {
+    return global.config.search.models.includes(apiId);
+  }
+
+  if (mode === 'field' && global.config.mode.fieldSearch) {
+    return global.config.search.fields.includes(apiId);
   }
 
   if (global.config.exclude.field[apiId]) return false;
@@ -75,7 +77,7 @@ const assertFieldType = ({apiId, __typename, ...field}: FieldType) => {
 const parseFields = (fields: FieldType[]) =>
   fields.reduce(
     (parsedFields: string[], field: FieldType): string[] =>
-      triage(field.apiId, field.isSystem)
+      triage('field', field.apiId, field.isSystem)
         ? [...parsedFields, assertFieldType(field)]
         : parsedFields,
     []
@@ -99,7 +101,7 @@ const generateQueries = (schema: ModelType[]) => {
 
       // TODO: add config to pretty print json or not (remove newlines & shit)?
 
-      return triage(modelApiId)
+      return triage('model', modelApiId)
         ? [
             ...parsedQueries,
             `query ${modelApiId} {

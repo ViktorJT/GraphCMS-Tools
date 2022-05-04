@@ -11,7 +11,7 @@ import schemaQuery from './queries/schemaQuery.js';
 export async function exportData(environment: EnvironmentType, preferences: PreferencesType) {
   setGlobalConfig(environment, preferences);
 
-  const schemaSpinner = ora({text: 'Exporting schema…', spinner: 'clock'}).start();
+  const schemaSpinner = ora({text: 'Exporting schema…\n', spinner: 'clock'}).start();
 
   const schemaQueryResults = await processRequests(
     schemaSpinner,
@@ -27,10 +27,10 @@ export async function exportData(environment: EnvironmentType, preferences: Pref
   );
 
   if (schemaQueryResults.length === 0) {
-    schemaSpinner.fail('Exporting schema failed');
+    schemaSpinner.fail('Exporting schema failed\n');
     throw Error('Something went wrong!');
   } else {
-    schemaSpinner.succeed('Successfully exported schema');
+    schemaSpinner.succeed('Successfully exported schema\n');
   }
 
   const modelSchema: ModelType[] =
@@ -38,15 +38,15 @@ export async function exportData(environment: EnvironmentType, preferences: Pref
 
   const queries = generateQueries(modelSchema);
 
-  const exportSpinner = ora({text: 'Exporting content – 0%', spinner: 'clock'}).start();
+  const exportSpinner = ora({text: 'Exporting content – 0%\n', spinner: 'clock'}).start();
 
   const results = await processRequests(exportSpinner, queries, global.config.contentApi);
 
   if (results.length === 0) {
-    exportSpinner.fail('Exporting content failed');
+    exportSpinner.fail('Exporting content failed\n');
     throw Error('Something went wrong!');
   } else {
-    exportSpinner.succeed('Successfully exported content');
+    exportSpinner.succeed('Successfully exported content\n');
     return results;
   }
 }
