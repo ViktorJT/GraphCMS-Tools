@@ -30,6 +30,12 @@
     "cjs",
     "esm"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/cjs/main.js",
+      "export": "./dist/esm/main.js"
+    }
+  },
   "author": "Viktor Jensen-Torp",
   "license": "MIT",
   "homepage": "https://github.com/ViktorJT/GraphCMS-Tools#graphcms-tools",
