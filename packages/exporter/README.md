@@ -48,14 +48,14 @@ _P.s. environment variables should never be committed._
 | ⎿           | locales              | string[] |         | Controls which locales to export from               |
 | include     |                      | object   |         |                                                     |
 | ⎿           | includeSystemModels  | boolean  | `true`  | Controls filtering system models                    |
-| ⎿           | includeSystemFields  | boolean  | `true`  | Controls filtering system fields                    |
+| ⎿           | includeSystemFields  | boolean  | `true`  | Controls filtering system fields, **ID fields are always exported** |
 | ⎿           | includeHiddenFields  | boolean  | `true`  | Controls filtering hidden fields                    |
 | ⎿           | includeApiOnlyFields | boolean  | `true`  | Controls filtering fields marked as api-only        |
 | exclude     |                      | object   |         |                                                     |
-| ⎿           | model                |          |         | Controls excluding content models by name           |
-| ⎿           | field                |          |         | Controls excluding fields by name                   |
-| ⎿           | type                 |          |         | Controls excluding fields by type                   |
-| ⎿           | subType              |          |         | Controls excluding fields by sub-type               |
+| ⎿           | model                | [key: string]: boolean |         | Controls excluding content models by name, set to true to filter, e.g.: `{ modelName: true }` |
+| ⎿           | field                | [key: string]: boolean |         | Controls excluding fields by name, set to true to filter, e.g.: `{ fieldName: true }` |
+| ⎿           | type                 | [key: string]: boolean |         | Controls excluding fields by type, set to true to filter, e.g.: `{ typeName: true }`|
+| ⎿           | subType              | [key: string]: boolean |         | Controls excluding fields by sub-type, set to true to filter, e.g.: `{ subType: true }` |
 
 ### Example
 

@@ -51,7 +51,7 @@ _P.s. environment variables should never be committed._
 | ----------- | ------------ | ------ | ------- | ----------------------------------------------- |
 | concurrency |              | number | 1       | Controls how many requests to run in each batch |
 | exclude     |              | object |         |                                                 |
-| ⎿           | model        |        |         | Controls excluding content models by name       |
+| ⎿           | model                | [key: string]: boolean |         | Controls excluding content models by name, set to true to filter, e.g.: `{ modelName: true }` |
 
 ### Example
 
