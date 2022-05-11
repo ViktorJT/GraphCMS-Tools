@@ -1,6 +1,6 @@
 # Exporter
 
-This package is part of a [collection of tools](https://github.com/ViktorJT/GraphCMS-Tools) to work more effectively with data using [GraphCMS](https://graphcms.com/).
+This package is part of a [collection of tools](https://github.com/ViktorJT/GraphCMS-Tools) to work more effectively with data in bulk using [GraphCMS](https://graphcms.com/).
 
 ## Getting Started
 
