@@ -1,8 +1,32 @@
 # Importer
 
-This package is part of a [collection of tools](../../../README.md) to work more effectively with data using [GraphCMS](https://graphcms.com/).
+This package is part of a [collection of tools](https://github.com/ViktorJT/GraphCMS-Tools) to work more effectively with data using [GraphCMS](https://graphcms.com/).
+
+## Getting Started
+
+#### Prerequisites
+1. Git
+2. Node: any 12.x version starting with v12.0.0 or greater
+3. NPM
+
+#### Installation
+- `npm i @graphcms-tools/importer`
 
 ## Usage
+
+The `importerData` function supports both CommonJS and ESM modules, and takes two objects as arguments:
+
+```javascript
+
+  // Both ESM (import) and CJS (require) are possible
+  import importerData from '@graphcms-tools/importer';
+
+  async function main() {
+    const data = importerData(environment, options);
+    return data;
+  }
+
+```
 
 ### Input
 
@@ -10,7 +34,7 @@ The `importData` function supports both CommonJS and ESM modules, and takes thre
 
 1. ### Data **Required**
 
-See the output of the [exporter package](../exporter/readme.md) for reference.
+See the output of the [exporter package](https://github.com/ViktorJT/GraphCMS-Tools/tree/main/packages/exporter) for reference.
 
 2. ### Environment **Required**
 
@@ -33,7 +57,7 @@ _P.s. environment variables should never be committed._
 
 ### Example
 
-```
+```javascript
 const environment = {
   contentApi: "https://api-eu-central-1-saeco.graphcms.com/v2/<id>/<environment>",
   projectId: "123456789",
@@ -58,10 +82,10 @@ const [importedData, rejectedData] = await importData(environment, options);
 
 #### See also
 
-#### [Exporter](../exporter/readme.md)
+#### [Exporter](https://github.com/ViktorJT/GraphCMS-Tools/tree/main/packages/exporter)
 
 Export data as JSON in bulk, with controls to filter the output
 
-#### [Publisher](../publisher/readme.md)
+#### [Publisher](https://github.com/ViktorJT/GraphCMS-Tools/tree/main/packages/publisher)
 
 Publish JSON data in bulk, with controls to filter the input
