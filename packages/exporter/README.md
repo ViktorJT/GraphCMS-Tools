@@ -28,7 +28,7 @@ The `exportData` function supports both CommonJS and ESM modules, and takes two 
 
 ```
 
-1. ### Environment **Required**
+1. ### Environment (Required)
 
 _P.s. environment variables should never be committed._
 

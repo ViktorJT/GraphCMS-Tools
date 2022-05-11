@@ -32,11 +32,11 @@ The `importerData` function supports both CommonJS and ESM modules, and takes tw
 
 The `importData` function supports both CommonJS and ESM modules, and takes three objects as arguments:
 
-1. ### Data **Required**
+1. ### Data (Required)
 
 See the output of the [exporter package](https://github.com/ViktorJT/GraphCMS-Tools/tree/main/packages/exporter) for reference.
 
-2. ### Environment **Required**
+2. ### Environment (Required)
 
 _P.s. environment variables should never be committed._
 
