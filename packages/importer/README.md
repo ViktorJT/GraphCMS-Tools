@@ -38,6 +38,8 @@ See the output of the [exporter package](https://github.com/ViktorJT/GraphCMS-To
 
 2. ### Environment (Required)
 
+**Make sure to generate a permanent access token with sufficient permissions, including the management api**
+
 _P.s. environment variables should never be committed._
 
 | property             | type   | where                                    |
