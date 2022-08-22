@@ -19,7 +19,7 @@ The `exportData` function supports both CommonJS and ESM modules, and takes two 
 ```javascript
 
   // Both ESM (import) and CJS (require) are possible
-  import exportData from '@graphcms-tools/exporter';
+  import { exportData } from '@graphcms-tools/exporter';
 
   async function main() {
     const data = exportData(environment, options);
